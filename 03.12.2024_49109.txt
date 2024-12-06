@@ -1,0 +1,12 @@
+==========================
+Data de Execução: 03.12.2024
+09.11.2024_92276 -> 20241109_170734 (Dispositivo:dfvdf)
+09.11.2024_92276 -> 20241dfdf0734 (Dispositivo:Canon t5i)
+==========================
+Data de Execução: 03.12.2024
+09.11.2024_92276 -> 20241109_170734 (Dispositivo:dfvdf)
+09.11.2024_92276 -> 20241dfdf0734 (Dispositivo:Canon t5i)
+==========================
+Data de Execução2: 03.12.2024
+09.11.2024_92276 -> 20241109_170734 (Dispositivo:dfvdf)
+09.11.2024_92276 -> 20241dfdf0734 (Dispositivo:Canon t5i)
