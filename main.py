@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 from datetime import datetime
 from PIL import Image
 import random
@@ -11,7 +10,7 @@ def renomear_meta():
     try:
         for arquivo in os.listdir(pasta):
             caminho_arquivo = os.path.join(pasta, arquivo)
-            if validacao(caminho_arquivo):
+            if validacao_arq(caminho_arquivo) and validacao_meta(caminho_arquivo):
                 extensao = caminho_arquivo[-3:]
                 image = Image.open(caminho_arquivo)
                 exif_data = image.getexif()
@@ -27,8 +26,8 @@ def renomear_meta():
                         os.rename(caminho_arquivo, novo_caminho)
                         infos.append((novo_nome, arquivo, device))
             else:
-                if validacao_img(caminho_arquivo):
-                    renomear_nome(arquivo, pasta)
+                if validacao_arq(caminho_arquivo):
+                    infos= infos + (renomear_nome(arquivo, pasta))
     except Exception as e:
         print(f"Erro ao processar {arquivo}: {e}")
     log(infos)
@@ -43,7 +42,6 @@ def renomear_nome(arquivo, pasta):
         for caractere in data:
             if not caractere.isdigit():
                 data = data.replace(caractere, '')
-        print(data)
         data_final = f"{data[6:8]}.{data[4:6]}.{data[0:4]}"
         novo_nome = f"{data_final}_{random.randint(10000, 99999)}.{extensao}"
         novo_caminho = os.path.join(pasta, novo_nome)
@@ -51,7 +49,7 @@ def renomear_nome(arquivo, pasta):
         infos.append((novo_nome, arquivo, "Desconhecido"))
     except Exception as e:
         print(f"Erro {e}")
-    log(infos)
+    return infos
 
 
 #-Enhanced-NR
@@ -68,22 +66,20 @@ def renomear_especifico(pasta, data_personalizada):
             print(f"Arquivo renomeado: {novo_caminho}")
 
 
-def validacao(caminho_arquivo):
+def validacao_meta(caminho_arquivo):
     device = data = False
-    if os.path.isfile(caminho_arquivo) and caminho_arquivo.endswith(('.jpg', '.jpeg', '.png', '.gif', '.CR2', '.JPG',
-                                                                     '.mp4')):
-        image = Image.open(caminho_arquivo)
-        exif_data = image.getexif()
-        for tag_id, value in exif_data.items():
-            if tag_id == 272:
-                device = True
-            if tag_id == 306:
-                data = True
+    image = Image.open(caminho_arquivo)
+    exif_data = image.getexif()
+    for tag_id, value in exif_data.items():
+        if tag_id == 272:
+            device = True
+        if tag_id == 306:
+            data = True
     if device and data:
         return True
     return False
 
-def validacao_img(caminho_arquivo):
+def validacao_arq(caminho_arquivo):
     if os.path.isfile(caminho_arquivo) and caminho_arquivo.endswith(('.jpg', '.jpeg', '.png', '.gif', '.CR2', '.JPG',
                                                                      '.mp4')):
         return True
@@ -135,12 +131,6 @@ def leitura(busca):
                     print(f'{lista[0]} - {lista[1]} - {lista[2]}')
 
 
-def teste():
-    infos = [('03.12.2024_93122', '20241109_170734', 'Galaxy S23'), ('09.11.2024_92276', '202410734', 'Canon t5i')]
-    log(infos)
-
-
-#teste()
 renomear_meta()
-#leitura('03.12.2024_93122')
+#leitura('09.11.2024_16931.jpg')
 #renomear_especifico(caminho_pasta, '20.11.2024')
