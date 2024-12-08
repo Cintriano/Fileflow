@@ -4,35 +4,27 @@ from PIL import Image
 import random
 
 
-def renomear_meta():
+#FUNÇÃO PRINCIPAL DE RENOMEAÇÃO DE ARQUIVOS, RESPONSAVEL POR VALIDAR E DELEGAR OS ARQUIVOS
+def main():
     pasta = r"C:\Users\danil\OneDrive\Temporários\Teste"
     infos = []
     try:
         for arquivo in os.listdir(pasta):
             caminho_arquivo = os.path.join(pasta, arquivo)
             if validacao_arq(caminho_arquivo) and validacao_meta(caminho_arquivo):
-                extensao = caminho_arquivo[-3:]
-                image = Image.open(caminho_arquivo)
-                exif_data = image.getexif()
-                for tag_id, value in exif_data.items():
-                    if tag_id == 272:
-                        device = value
-                    if tag_id == 306:
-                        date = value.split(" ")[0].replace(":", ".")
-                        date_final = ".".join(date.split(".")[::-1])
-                        novo_nome = f"{date_final}_{random.randint(10000, 99999)}.{extensao}"
-                        novo_caminho = os.path.join(pasta, novo_nome)
-                        image.close()
-                        os.rename(caminho_arquivo, novo_caminho)
-                        infos.append((novo_nome, arquivo, device))
+                lista = renomear_meta(caminho_arquivo, pasta)
+                os.rename(caminho_arquivo, lista[0])
+                infos.append((lista[1], arquivo, lista[2]))
             else:
                 if validacao_arq(caminho_arquivo):
                     infos= infos + (renomear_nome(arquivo, pasta))
     except Exception as e:
         print(f"Erro ao processar {arquivo}: {e}")
     log(infos)
+    return "Processo Finalizado"
 
 
+# RENOMEIA OS ARQUIVOS ATRAVEZ DAS INFORMAÇÕES DO NOME
 def renomear_nome(arquivo, pasta):
     infos = []
     try:
@@ -52,8 +44,25 @@ def renomear_nome(arquivo, pasta):
     return infos
 
 
-#-Enhanced-NR
+#RENOMEIA OS ARQUIVOS ATRAVEZ DAS INFORMAÇÕES DOS METADADOS
+def renomear_meta(caminho_arquivo, pasta):
+    extensao = caminho_arquivo[-3:]
+    image = Image.open(caminho_arquivo)
+    exif_data = image.getexif()
+    for tag_id, value in exif_data.items():
+        if tag_id == 272:
+            device = value
+        if tag_id == 306:
+            date = value.split(" ")[0].replace(":", ".")
+            date_final = ".".join(date.split(".")[::-1])
+            novo_nome = f"{date_final}_{random.randint(10000, 99999)}.{extensao}"
+            novo_caminho = os.path.join(pasta, novo_nome)
+            image.close()
+            lista = [novo_caminho, novo_nome, device]
+    return lista
 
+#-Enhanced-NR
+#RENOMEIA OS ARQUIVOS COM UMA DATA DEFINIDA ESPECIFICA
 def renomear_especifico(pasta, data_personalizada):
     data_personalizada = datetime.strptime(data_personalizada, '%d.%m.%Y')
     for arquivo in os.listdir(pasta):
@@ -66,6 +75,7 @@ def renomear_especifico(pasta, data_personalizada):
             print(f"Arquivo renomeado: {novo_caminho}")
 
 
+#VALIDA SE OS ARQUIVOS POSSUEM METADADOS
 def validacao_meta(caminho_arquivo):
     device = data = False
     image = Image.open(caminho_arquivo)
@@ -79,6 +89,8 @@ def validacao_meta(caminho_arquivo):
         return True
     return False
 
+
+#VALIDA SE AS EXTENÇÕES DOS ARQUIVOS SÃO VALIDAS
 def validacao_arq(caminho_arquivo):
     if os.path.isfile(caminho_arquivo) and caminho_arquivo.endswith(('.jpg', '.jpeg', '.png', '.gif', '.CR2', '.JPG',
                                                                      '.mp4')):
@@ -90,7 +102,7 @@ def remove_enhanced():
     print()
 
 
-#ADICIONAR O DISPOSITIVO
+#CRIA REGISTROS DE TODAS AS EXECUÇÕES
 def log(infos):
     pasta = r"C:\Users\danil\OneDrive\Temporários\Teste\Log"
     num = random.randint(10000, 99999)
@@ -120,7 +132,8 @@ def log(infos):
         print('Erro:', e)
 
 
-def leitura(busca):
+#FAZ A LEITURA DO LOG PESQUISANDO UM ARQUIVO ESPECIFICO
+def leitura_log(busca):
     pasta = r"C:\Users\danil\OneDrive\Temporários\Teste\Log"
     for arquivo in os.listdir(pasta):
         caminho_arquivo = os.path.join(pasta, arquivo)
@@ -131,6 +144,6 @@ def leitura(busca):
                     print(f'{lista[0]} - {lista[1]} - {lista[2]}')
 
 
-renomear_meta()
+main()
 #leitura('09.11.2024_16931.jpg')
 #renomear_especifico(caminho_pasta, '20.11.2024')
