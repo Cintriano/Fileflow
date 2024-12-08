@@ -1,5 +1,7 @@
 import os
 from datetime import datetime
+from idlelib.replace import replace
+
 from PIL import Image
 import random
 
@@ -17,7 +19,7 @@ def main():
                 infos.append((lista[1], arquivo, lista[2]))
             else:
                 if validacao_arq(caminho_arquivo):
-                    infos= infos + (renomear_nome(arquivo, pasta))
+                    infos = infos + (renomear_nome(arquivo, pasta))
     except Exception as e:
         print(f"Erro ao processar {arquivo}: {e}")
     log(infos)
@@ -61,7 +63,7 @@ def renomear_meta(caminho_arquivo, pasta):
             lista = [novo_caminho, novo_nome, device]
     return lista
 
-#-Enhanced-NR
+
 #RENOMEIA OS ARQUIVOS COM UMA DATA DEFINIDA ESPECIFICA
 def renomear_especifico(pasta, data_personalizada):
     data_personalizada = datetime.strptime(data_personalizada, '%d.%m.%Y')
@@ -99,7 +101,14 @@ def validacao_arq(caminho_arquivo):
 
 
 def remove_enhanced():
-    print()
+    pasta = r"C:\Users\danil\OneDrive\Temporários\Teste"
+    for arquivo in os.listdir(pasta):
+        caminho_arquivo = os.path.join(pasta, arquivo)
+        if validacao_arq(caminho_arquivo):
+            novo_nome = arquivo.replace(arquivo[-16:-4:], "")
+            novo_caminho = os.path.join(pasta, novo_nome)
+            os.rename(caminho_arquivo, novo_caminho)
+    # -Enhanced-NR
 
 
 #CRIA REGISTROS DE TODAS AS EXECUÇÕES
