@@ -1,3 +1,11 @@
+"""
+CONVERSOR
+TESTAR E MELHORAR AS FUNÇÕES
+
+RENAME
+APLICAR A FUNÇÃO PARA SEPARAR OS ARQUIVOS QUE JÁ ESTÃO NO PADRÃO DE DATA"""
+
+
 def renomear_camera():
     pasta = r"C:\Users\danil\OneDrive\Teste"
     for arquivo in os.listdir(pasta):
