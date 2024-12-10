@@ -67,6 +67,7 @@ def renomear_especifico(pasta, data_personalizada):
 def validacao_meta(caminho_arquivo):
     try:
         device = data = False
+        Image.MAX_IMAGE_PIXELS = None
         image = Image.open(caminho_arquivo)
         exif_data = image.getexif()
         for tag_id, value in exif_data.items():
