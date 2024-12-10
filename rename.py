@@ -1,7 +1,8 @@
 import os
-from datetime import datetime
-from PIL import Image
 import random
+from datetime import datetime
+
+from PIL import Image
 
 
 # RENOMEIA OS ARQUIVOS ATRAVEZ DAS INFORMAÇÕES DO NOME
@@ -92,19 +93,29 @@ def validacao_arq(caminho_arquivo):
 
 
 #VALIDA SE O ARQUIVO ESTÁ NO PADRÃO DE DATA
-def valida_padrao_data(caminho_arquivo):
+def padrao_data(caminho_arquivo):
+    data_sistema = datetime.now()
     try:
-        nome_arquivo = caminho_arquivo[42::]
-        data_arquivo = datetime.strptime(nome_arquivo[0:10], "%d.%m.%Y")
-        data_sistema = datetime.now()
-        if (nome_arquivo[2] == "." and nome_arquivo[5] == "." and nome_arquivo[10] == "_" and
-                caminho_arquivo[-5:].isdigit()) and len(nome_arquivo) == 16:
-            if (1 <= int(nome_arquivo[0:2]) <= 31 and 1 <= int(nome_arquivo[3:5]) <= 12 and
-                    1960 <= int(nome_arquivo[6:10]) <= 2174) and data_arquivo <= data_sistema:
-                return False
+        nome_arquivo = os.path.basename(caminho_arquivo)
+        nome_arquivo = nome_arquivo[:-4]
+        if len(nome_arquivo) != 16:
+            return False
+        if nome_arquivo[2] != "." or nome_arquivo[5] != "." or nome_arquivo[10] != "_":
+            return False
+        parte_data = nome_arquivo[:10]
+        parte_numero = nome_arquivo[11:]
+        if not parte_numero.isdigit() or len(parte_numero) != 5:
+            return False
+        try:
+            data_arquivo = datetime.strptime(parte_data, "%d.%m.%Y")
+        except ValueError:
+            return False
+        if data_arquivo >= data_sistema:
+            return False
         return True
     except Exception as e:
-        print("Erro Função(valida_padrao_data): ", e)
+        print("Erro na Função(padrao_data):", e)
+        return False
 
 
 #REMOVE O ENCHANCED DOS ARQUIVOS
