@@ -8,7 +8,6 @@ def main():
     try:
         for arquivo in os.listdir(pasta):
             caminho_arquivo = os.path.join(pasta, arquivo)
-            print(caminho_arquivo)
             if validacao_arq(caminho_arquivo) and not (padrao_data(caminho_arquivo)):
                 if validacao_meta(caminho_arquivo):
                     lista = renomear_meta(caminho_arquivo, pasta)
@@ -16,7 +15,8 @@ def main():
                     infos.append((lista[1], arquivo, lista[2]))
                 else:
                     infos = infos + (renomear_nome(arquivo, pasta))
-                log(infos)
+                if len(infos) != 0:
+                    log(infos)
     except Exception as e:
         print(f"Erro ao processar {arquivo}: {e}")
     return "Processo Finalizado"
