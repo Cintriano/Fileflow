@@ -31,18 +31,3 @@ def log(infos, tipo):
             return True
     except Exception as e:
         print('Erro Função(Log):', e)
-
-
-#FAZ A LEITURA DO LOG PESQUISANDO UM ARQUIVO ESPECIFICO
-def leitura_log(nome_arquivo):
-    pasta = r"C:\Users\danil\OneDrive\Temporários\Teste\Log"
-    try:
-        for arquivo in os.listdir(pasta):
-            caminho_arquivo = os.path.join(pasta, arquivo)
-            with open(caminho_arquivo, 'r') as arq:
-                for linha in arq.readlines():
-                    lista = linha.split('/')
-                    if lista[0] == nome_arquivo:
-                        print(f'{lista[0]} - {lista[1]} - {lista[2]}')
-    except Exception as e:
-        print("Erro Função(leitura_log):", e)

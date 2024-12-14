@@ -53,6 +53,21 @@ def main_c(pasta, operacao):
     except Exception as e:
         return f"Erro Função(main_c): {e}"
 
+#FAZ A LEITURA DO LOG PESQUISANDO UM ARQUIVO ESPECIFICO
+def main_b(pasta, nome_arquivo):
+    if not os.path.exists(pasta):
+        return "Pasta não Existente"
+    try:
+        for arquivo in os.listdir(pasta):
+            caminho_arquivo = os.path.join(pasta, arquivo)
+            with open(caminho_arquivo, 'r') as arq:
+                for linha in arq.readlines():
+                    lista = linha.split('/')
+                    if lista[0] == nome_arquivo:
+                        return f'{lista[0]} - {lista[1]} - {lista[2]}'
+    except Exception as e:
+        return "Erro Função(leitura_log):", e
+
 
 #leitura('09.11.2024_16931.jpg')
 #renomear_especifico(caminho_pasta, '20.11.2024')
