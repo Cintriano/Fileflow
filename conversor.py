@@ -20,8 +20,10 @@ def converter_cr2_png(pasta, arquivo):
         novo_nome = arquivo.replace(".CR2", ".png")
         novo_caminho = os.path.join(pasta, novo_nome)
         img.save(novo_caminho, "png")
+        infos = [(novo_nome, "cr2", "png")]
     except Exception as e:
         print(f"Erro Função(converter_cr2_png): {e}")
+    return infos
 
 def converter_png_jpg(pasta, arquivo):
     caminho_completo = os.path.join(pasta, arquivo)
@@ -30,8 +32,10 @@ def converter_png_jpg(pasta, arquivo):
         novo_nome = arquivo.replace(".png", ".jpg")
         novo_caminho = os.path.join(pasta, novo_nome)
         img.save(novo_caminho, "JPEG")
+        infos = [(novo_nome, "png", "jpg")]
     except Exception as e:
         print(f"Erro Função(converter_png_jpg): {e}")
+    return infos
 
 def converter_jpg_png(pasta, arquivo):
     caminho_completo = os.path.join(pasta, arquivo)
@@ -40,14 +44,15 @@ def converter_jpg_png(pasta, arquivo):
         novo_nome = arquivo.replace(".jpg", ".png")
         novo_caminho = os.path.join(pasta, novo_nome)
         img.save(novo_caminho, "png")
+        infos = [(novo_nome, "jpg", "png")]
     except Exception as e:
         print(f"Erro Função(converter_jpg_png): {e}")
+    return infos
 
-def excluir_cr2(pasta):
+def excluir(pasta, arquivo, extensao):
     try:
-        for arquivo in os.listdir(pasta):
-            if arquivo.endswith(".CR2"):
-                caminho_completo = os.path.join(pasta, arquivo)
-                os.remove(caminho_completo)
+        if arquivo.endswith(extensao):
+            caminho_completo = os.path.join(pasta, arquivo)
+            os.remove(caminho_completo)
     except Exception as e:
         print(f"Erro Função(excluir_cr2): {e}")
