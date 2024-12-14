@@ -1,15 +1,12 @@
 from rename import *
 from log import *
+from conversor import *
 
 #FUNÇÃO PRINCIPAL DE RENOMEAÇÃO DE ARQUIVOS, RESPONSAVEL POR VALIDAR E DELEGAR OS ARQUIVOS
-def main():
-    pasta = r"C:\Users\danil\OneDrive\Temporários\Teste"
-    #pasta = r"D:\DCIM\100CANON"
-    infos = []
-
+def main_r(pasta):
     if not os.path.exists(pasta):
         return "Pasta não Existente"
-
+    infos = []
     try:
         for arquivo in os.listdir(pasta):
             caminho_arquivo = os.path.join(pasta, arquivo)
@@ -26,7 +23,15 @@ def main():
         print(f"Erro ao processar {arquivo}: {e}")
     return "Processo Finalizado"
 
-
-print(main())
+def main_c(pasta, operacao):
+    infos = []
+    if operacao == "1":
+        return converter_cr2_jpg(pasta)
+    elif operacao == "2":
+        return converter_cr2_png(pasta)
+    elif operacao == "3":
+        return converter_jpg_png(pasta)
+    elif operacao == "4":
+        converter_png_jpg(pasta)
 #leitura('09.11.2024_16931.jpg')
 #renomear_especifico(caminho_pasta, '20.11.2024')

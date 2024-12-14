@@ -1,24 +1,42 @@
-from main import renomear_celular, renomear_camera, renomear_especifico
+from main import *
 
-device = ''
+operacao = ""
+pasta = None
 
-while device.islower() != 'sair':
-    print('1 - Celular \n2 - Camera \n3 - Externo')
-
+while operacao != "sair":
+    print("1 - Renomear \n2 - Converter \n3 - Consultar")
     try:
-        device = input('\nQual o Dispositivo:')
+        operacao = input(str("\nOperação:"))
 
-        if device == '1':
-            renomear_celular()
-        elif device == '2':
-            renomear_camera()
-        elif device == '3':
-            caminho = input('\nCaminho da Pasta:')
-            data = input('Data:')
+        if operacao == "sair":
+            print("Processo Encerrado")
+            break
+
+        print("P - Padrão(Teste) \nC - Cartão-SD \nN - Novo")
+
+        tipo_caminho = input(str("Tipo Caminho:"))
+
+        if tipo_caminho == "p" or tipo_caminho == "P":
+            pasta = r"C:\Users\danil\OneDrive\Temporários\Teste"
+        elif tipo_caminho == "c" or tipo_caminho == "C":
+            pasta = r"D:\DCIM\100CANON"
+        elif tipo_caminho == "n" or tipo_caminho == "N":
+            nova_pasta = input("Nova Pasta: ")
+            pasta = nova_pasta
+        else:
+            print("Tipo de Caminho Invalido")
+
+        if operacao == "1" and pasta is not None:
+            print(main_r(pasta))
+        elif operacao == "2" and pasta is not None:
+            print("1 - CR2 -> jpg \n2 - CR2 -> png \n3 - jpg -> png \n4 - png -> jpg")
+            operacao = input(str("\nOperação:"))
+            print(main_c(pasta, operacao))
+        elif operacao == "3" and pasta is not None:
+            caminho = input("\nCaminho da Pasta:")
+            data = input("Data:")
             renomear_especifico(caminho, data)
         else:
             print('Caracteres Invalidos')
     except Exception as e:
-        print(f'Erro: {e}')
-
-
+        print(f'Erro Função(Menu): {e}')

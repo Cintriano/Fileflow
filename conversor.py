@@ -10,6 +10,7 @@ def converter_cr2_jpg(pasta):
                 novo_nome = arquivo.replace(".CR2", ".jpg")
                 novo_caminho = os.path.join(pasta, novo_nome)
                 img.save(novo_caminho, "JPEG")
+                infos = (novo_nome, "cr2", "jpg")
             except Exception as e:
                 print(f"Erro Função(converter_cr2_jpg): {e}")
 
