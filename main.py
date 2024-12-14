@@ -26,12 +26,22 @@ def main_r(pasta):
 def main_c(pasta, operacao):
     infos = []
     if operacao == "1":
-        return converter_cr2_jpg(pasta)
+        for arquivo in os.listdir(pasta):
+            if arquivo.endswith(".CR2"):
+                infos = infos + converter_cr2_jpg(pasta, arquivo)
     elif operacao == "2":
-        return converter_cr2_png(pasta)
+        for arquivo in os.listdir(pasta):
+            if arquivo.endswith(".CR2"):
+                infos = infos + converter_cr2_png(pasta, arquivo)
     elif operacao == "3":
-        return converter_jpg_png(pasta)
+        for arquivo in os.listdir(pasta):
+            if arquivo.endswith(".jpg") or arquivo.endswith(".JPEG"):
+                infos = infos + converter_jpg_png(pasta, arquivo)
     elif operacao == "4":
-        converter_png_jpg(pasta)
+        for arquivo in os.listdir(pasta):
+            if arquivo.endswith(".png"):
+                infos = infos + converter_png_jpg(pasta, arquivo)
+    log(infos, "c")
+    return "Processo Finalizado"
 #leitura('09.11.2024_16931.jpg')
 #renomear_especifico(caminho_pasta, '20.11.2024')
