@@ -4,7 +4,7 @@ operacao = ""
 pasta = None
 
 while operacao != "sair":
-    print("1 - Renomear \n2 - Converter \n3 - Consultar")
+    print("1 - Renomear \n2 - Converter \n3 - Consultar \n4 - Remover Enchanced")
     try:
         operacao = input(str("\nOperação: "))
 
@@ -13,9 +13,13 @@ while operacao != "sair":
             break
 
         if operacao != "3":
-            print("P - Padrão(Teste) \nC - Cartão-SD \nN - Novo")
+            print("\nP - Padrão(Teste) \nC - Cartão-SD \nN - Novo")
 
-            tipo_caminho = input(str("Tipo Caminho:"))
+            tipo_caminho = input(str("\nTipo Caminho: "))
+
+            if tipo_caminho == "sair":
+                print("Processo Encerrado")
+                break
 
             if tipo_caminho == "p" or tipo_caminho == "P":
                 pasta = r"C:\Users\danil\OneDrive\Temporários\Teste"
@@ -37,6 +41,8 @@ while operacao != "sair":
             pasta = r"C:\Users\danil\OneDrive\Temporários\Teste\Log"
             nome_arquivo = input(str("Nome do Arquivo: "))
             print(main_b(pasta, nome_arquivo))
+        elif operacao == "4" and pasta is not None:
+            print("s", main_e(pasta))
         else:
             print('Caracteres Invalidos')
     except Exception as e:

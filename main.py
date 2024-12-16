@@ -66,8 +66,16 @@ def main_b(pasta, nome_arquivo):
                     if lista[0] == nome_arquivo:
                         return f'{lista[0]} - {lista[1]} - {lista[2]}'
     except Exception as e:
-        return "Erro Função(leitura_log):", e
+        return "Erro Função(main_b):", e
 
-
-#leitura('09.11.2024_16931.jpg')
-#renomear_especifico(caminho_pasta, '20.11.2024')
+def main_e(pasta):
+    try:
+        for arquivo in os.listdir(pasta):
+            caminho_arquivo = os.path.join(pasta, arquivo)
+            if validacao_arq(caminho_arquivo) and arquivo[-16:-4:] == "-Enhanced-NR":
+                novo_nome = arquivo.replace("-Enhanced-NR", "")
+                novo_caminho = os.path.join(pasta, novo_nome)
+                os.rename(caminho_arquivo, novo_caminho)
+                return "Processo Finalizado"
+    except Exception as e:
+        return "Erro Função(main_e):", e
