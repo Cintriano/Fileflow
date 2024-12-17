@@ -36,9 +36,8 @@ def main_manual_r(data_personalizada, pasta):
         for arquivo in os.listdir(pasta):
             caminho_arquivo = os.path.join(pasta, arquivo)
             if validacao_arq(caminho_arquivo):
-                print(caminho_arquivo)
-                lista = renomear_especifico(caminho_arquivo, data_personalizada, pasta)
-                infos.append((lista[1], arquivo, lista[2]))
+                novo_nome = renomear_especifico(caminho_arquivo, data_personalizada, pasta)
+                infos.append((novo_nome, arquivo, "Desconhecido"))
         if len(infos) != 0:
             log(infos, "r")
         return "Processo Finalizado"

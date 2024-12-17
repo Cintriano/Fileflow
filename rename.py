@@ -10,7 +10,7 @@ def renomear_nome(arquivo, pasta):
     try:
         caminho_arquivo = os.path.join(pasta, arquivo)
         data = arquivo
-        extensao = caminho_arquivo[-3:]
+        extensao = extensao_formt(caminho_arquivo)
         for caractere in data:
             if not caractere.isdigit():
                 data = data.replace(caractere, '')
@@ -28,7 +28,7 @@ def renomear_nome(arquivo, pasta):
 def renomear_meta_completo(caminho_arquivo, pasta):
     try:
         Image.MAX_IMAGE_PIXELS = None
-        extensao = caminho_arquivo[-3:]
+        extensao = extensao_formt(caminho_arquivo)
         image = Image.open(caminho_arquivo)
         exif_data = image.getexif()
         for tag_id, value in exif_data.items():
@@ -48,7 +48,7 @@ def renomear_meta_completo(caminho_arquivo, pasta):
 def renomear_meta_parcial(caminho_arquivo, pasta):
     try:
         Image.MAX_IMAGE_PIXELS = None
-        extensao = caminho_arquivo[-3:]
+        extensao = extensao_formt(caminho_arquivo)
         image = Image.open(caminho_arquivo)
         exif_data = image.getexif()
         for tag_id, value in exif_data.items():
@@ -67,12 +67,11 @@ def renomear_meta_parcial(caminho_arquivo, pasta):
 #RENOMEIA OS ARQUIVOS COM UMA DATA DEFINIDA ESPECIFICA
 def renomear_especifico(caminho_arquivo, data_personalizada, pasta):
     try:
-        extensao = caminho_arquivo[-3:]
+        extensao = extensao_formt(caminho_arquivo)
         novo_nome = f"{data_personalizada.strftime('%d.%m.%Y')}_{random.randint(10000, 99999)}.{extensao}"
         novo_caminho = os.path.join(pasta, novo_nome)
         os.rename(caminho_arquivo, novo_caminho)
-        infos = [(novo_caminho, novo_caminho, "Desconhecido")]
-        return infos
+        return novo_nome
     except Exception as e:
         print("Erro Função(renomear_especifico): ", e)
 
@@ -113,7 +112,7 @@ def validacao_meta_dispositivo(caminho_arquivo):
 def validacao_arq(caminho_arquivo):
     try:
         if os.path.isfile(caminho_arquivo) and caminho_arquivo.endswith((".jpg", ".png", ".gif", ".CR2", ".JPG",
-                                                                         ".mp4",)):
+                                                                         ".mp4", ".webp")):
             return True
         return False
     except Exception as e:
@@ -158,3 +157,7 @@ def remove_enhanced(pasta):
     except Exception as e:
         print("Erro Função(remover_enhanced): ", e)
     # -Enhanced-NR
+
+def extensao_formt(caminho_arquivo):
+    extensao = (caminho_arquivo.split("."))[-1]
+    return extensao

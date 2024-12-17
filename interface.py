@@ -1,7 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
 from tkinter import ttk
-from main import *
 
 # Criar a janela principal
 janela = tk.Tk()
@@ -30,7 +28,7 @@ combobox = ttk.Combobox(rename, values=opcoes, state="readonly")
 combobox.pack(pady=10)
 combobox.current(0)  # Define a primeira opção como selecionada
 
-label = ttk.Label(rename, text="Tipo de Pocesso:")
+label = ttk.Label(rename, text="Tipo de Processo:")
 label.pack(pady=5)
 
 opcoes = ["Datação", "Remover Enchanced"]  # Lista de opções
