@@ -25,7 +25,7 @@ def renomear_nome(arquivo, pasta):
 
 
 #RENOMEIA OS ARQUIVOS ATRAVEZ DAS INFORMAÇÕES DOS METADADOS
-def renomear_meta(caminho_arquivo, pasta):
+def renomear_meta_completo(caminho_arquivo, pasta):
     try:
         Image.MAX_IMAGE_PIXELS = None
         extensao = caminho_arquivo[-3:]
@@ -43,50 +43,77 @@ def renomear_meta(caminho_arquivo, pasta):
                 infos = [novo_caminho, novo_nome, device]
         return infos
     except Exception as e:
-        print("Erro Função(renomear_meta): ", e)
+        print("Erro Função(renomear_meta_completo): ", e)
+
+def renomear_meta_parcial(caminho_arquivo, pasta):
+    try:
+        Image.MAX_IMAGE_PIXELS = None
+        extensao = caminho_arquivo[-3:]
+        image = Image.open(caminho_arquivo)
+        exif_data = image.getexif()
+        for tag_id, value in exif_data.items():
+            if tag_id == 306:
+                data = value.split(" ")[0].replace(":", ".")
+                data_final = ".".join(data.split(".")[::-1])
+                novo_nome = f"{data_final}_{random.randint(10000, 99999)}.{extensao}"
+                novo_caminho = os.path.join(pasta, novo_nome)
+                image.close()
+                infos = [novo_caminho, novo_nome, "Desconhecido"]
+        return infos
+    except Exception as e:
+        print("Erro Função(renomear_meta_parcial): ", e)
 
 
 #RENOMEIA OS ARQUIVOS COM UMA DATA DEFINIDA ESPECIFICA
-def renomear_especifico(pasta, data_personalizada):
+def renomear_especifico(caminho_arquivo, data_personalizada, pasta):
     try:
-        data_personalizada = datetime.strptime(data_personalizada, "%d.%m.%Y")
-        for arquivo in os.listdir(pasta):
-            caminho_arquivo = os.path.join(pasta, arquivo)
-            if validacao_arq(caminho_arquivo):
-                extensao = caminho_arquivo[-3:]
-                novo_nome = f"{data_personalizada.strftime('%d.%m.%Y')}_{random.randint(10000, 99999)}.{extensao}"
-                novo_caminho = os.path.join(pasta, novo_nome)
-                os.rename(caminho_arquivo, novo_caminho)
-            infos = [(novo_caminho, novo_caminho, "Desconhecido")]
+        extensao = caminho_arquivo[-3:]
+        novo_nome = f"{data_personalizada.strftime('%d.%m.%Y')}_{random.randint(10000, 99999)}.{extensao}"
+        novo_caminho = os.path.join(pasta, novo_nome)
+        os.rename(caminho_arquivo, novo_caminho)
+        infos = [(novo_caminho, novo_caminho, "Desconhecido")]
         return infos
     except Exception as e:
         print("Erro Função(renomear_especifico): ", e)
 
 
 #VALIDA SE OS ARQUIVOS POSSUEM METADADOS
-def validacao_meta(caminho_arquivo):
+def validacao_meta_data(caminho_arquivo):
     try:
-        device = data = False
+        data = False
+        Image.MAX_IMAGE_PIXELS = None
+        image = Image.open(caminho_arquivo)
+        exif_data = image.getexif()
+        for tag_id, value in exif_data.items():
+            if tag_id == 306:
+                data = True
+        if data:
+            return True
+        return False
+    except Exception as e:
+        print("Erro Função(validacao_meta_data): ", e)
+
+def validacao_meta_dispositivo(caminho_arquivo):
+    try:
+        device = False
         Image.MAX_IMAGE_PIXELS = None
         image = Image.open(caminho_arquivo)
         exif_data = image.getexif()
         for tag_id, value in exif_data.items():
             if tag_id == 272:
                 device = True
-            if tag_id == 306:
-                data = True
-        if device and data:
+        if device:
             return True
         return False
     except Exception as e:
-        print("Erro Função(validacao_meta): ", e)
+        print("Erro Função(validacao_meta_dispositivo): ", e)
 
 
 #VALIDA SE AS EXTENÇÕES DOS ARQUIVOS SÃO VALIDAS
 def validacao_arq(caminho_arquivo):
     try:
-        if os.path.isfile(caminho_arquivo) and caminho_arquivo.endswith(('.jpg', '.jpeg', '.png', '.gif', '.CR2', '.JPG',
-                                                                         '.mp4')):
+        if os.path.isfile(caminho_arquivo) and caminho_arquivo.endswith((".jpg", ".png", ".gif", ".CR2", ".JPG",
+                                                                         ".mp4",)):
             return True
         return False
     except Exception as e:

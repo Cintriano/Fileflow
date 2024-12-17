@@ -3,7 +3,7 @@ from log import *
 from conversor import *
 
 #FUNÇÃO PRINCIPAL DE RENOMEAÇÃO DE ARQUIVOS, RESPONSAVEL POR VALIDAR E DELEGAR OS ARQUIVOS
-def main_r(pasta):
+def main_auto_r(pasta):
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     infos = []
@@ -11,8 +11,12 @@ def main_r(pasta):
         for arquivo in os.listdir(pasta):
             caminho_arquivo = os.path.join(pasta, arquivo)
             if validacao_arq(caminho_arquivo) and not (padrao_data(caminho_arquivo)):
-                if validacao_meta(caminho_arquivo):
-                    lista = renomear_meta(caminho_arquivo, pasta)
+                if validacao_meta_data(caminho_arquivo) and validacao_meta_dispositivo(caminho_arquivo):
+                    lista = renomear_meta_completo(caminho_arquivo, pasta)
+                    os.rename(caminho_arquivo, lista[0])
+                    infos.append((lista[1], arquivo, lista[2]))
+                elif validacao_meta_data(caminho_arquivo):
+                    lista = renomear_meta_parcial(caminho_arquivo, pasta)
                     os.rename(caminho_arquivo, lista[0])
                     infos.append((lista[1], arquivo, lista[2]))
                 else:
@@ -21,7 +25,25 @@ def main_r(pasta):
             log(infos, "r")
         return "Processo Finalizado"
     except Exception as e:
-        return f"Erro Função(main_c): {e}"
+        return f"Erro Função(main_auto_r): {e}"
+
+def main_manual_r(data_personalizada, pasta):
+    if not os.path.exists(pasta):
+        return "Pasta não Existente"
+    infos = []
+    try:
+        data_personalizada = datetime.strptime(data_personalizada, "%d.%m.%Y")
+        for arquivo in os.listdir(pasta):
+            caminho_arquivo = os.path.join(pasta, arquivo)
+            if validacao_arq(caminho_arquivo):
+                print(caminho_arquivo)
+                lista = renomear_especifico(caminho_arquivo, data_personalizada, pasta)
+                infos.append((lista[1], arquivo, lista[2]))
+        if len(infos) != 0:
+            log(infos, "r")
+        return "Processo Finalizado"
+    except Exception as e:
+        return f"Erro Função(main_manual_r): {e}"
 
 def main_c(pasta, operacao):
     if not os.path.exists(pasta):
