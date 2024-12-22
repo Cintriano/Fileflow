@@ -15,7 +15,7 @@ def log(infos, tipo):
     caminho_arquivo = os.path.join(pasta, nome_arquivo)
     try:
         for arquivo in os.listdir(pasta):
-            if data == arquivo[4:14]:
+            if data[3:10] == arquivo[7:14]:
                 caminho_arquivo = os.path.join(pasta, arquivo)
                 with open(caminho_arquivo, 'a') as relatorio:
                     relatorio.write(f'Execução/{data}/{hora}/{quant_arq}/{tipo}\n')
