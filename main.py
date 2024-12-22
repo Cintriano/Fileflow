@@ -3,7 +3,7 @@ from log import *
 from conversor import *
 
 #FUNÇÃO PRINCIPAL DE RENOMEAÇÃO DE ARQUIVOS, RESPONSAVEL POR VALIDAR E DELEGAR OS ARQUIVOS
-def main_auto_r(pasta):
+def main_datacao_auto(pasta):
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     infos = []
@@ -27,7 +27,7 @@ def main_auto_r(pasta):
     except Exception as e:
         return f"Erro Função(main_auto_r): {e}"
 
-def main_manual_r(data_personalizada, pasta):
+def main_datacao_manual(data_personalizada, pasta):
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     infos = []
@@ -44,7 +44,7 @@ def main_manual_r(data_personalizada, pasta):
     except Exception as e:
         return f"Erro Função(main_manual_r): {e}"
 
-def main_c(pasta, operacao):
+def main_conversao(pasta, operacao):
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     infos = []
@@ -75,7 +75,7 @@ def main_c(pasta, operacao):
         return f"Erro Função(main_c): {e}"
 
 #FAZ A LEITURA DO LOG PESQUISANDO UM ARQUIVO ESPECIFICO
-def main_b(pasta, nome_arquivo):
+def main_busca_log(pasta, nome_arquivo):
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     try:
@@ -89,7 +89,7 @@ def main_b(pasta, nome_arquivo):
     except Exception as e:
         return "Erro Função(main_b):", e
 
-def main_e(pasta):
+def main_remover_enchanced(pasta):
     try:
         for arquivo in os.listdir(pasta):
             caminho_arquivo = os.path.join(pasta, arquivo)

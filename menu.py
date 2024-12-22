@@ -32,20 +32,20 @@ while operacao != "sair":
                 print("Tipo de Caminho Invalido")
 
         if operacao == "1" and pasta is not None:
-            print(main_auto_r(pasta))
+            print(main_datacao_auto(pasta))
         elif operacao == "2" and pasta is not None:
             print("1 - CR2 -> jpg \n2 - CR2 -> png \n3 - jpg -> png \n4 - png -> jpg")
             operacao = input(str("\nOperação:"))
-            print(main_c(pasta, operacao))
+            print(main_conversao(pasta, operacao))
         elif operacao == "3" and pasta is None:
             pasta = r"C:\Users\danil\OneDrive\Temporários\Teste\Log"
             nome_arquivo = input(str("Nome do Arquivo: "))
-            print(main_b(pasta, nome_arquivo))
+            print(main_busca_log(pasta, nome_arquivo))
         elif operacao == "4" and pasta is not None:
-            print(main_e(pasta))
+            print(main_remover_enchanced(pasta))
         elif operacao == "5":
             data_personalizada = input(str("Data Personalizada:"))
-            print(main_manual_r(data_personalizada, pasta))
+            print(main_datacao_manual(data_personalizada, pasta))
         else:
             print('Caracteres Invalidos')
     except Exception as e:
