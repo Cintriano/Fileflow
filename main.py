@@ -3,7 +3,7 @@ from log import *
 from conversor import *
 
 #FUNÇÃO PRINCIPAL DE RENOMEAÇÃO DE ARQUIVOS, RESPONSAVEL POR VALIDAR E DELEGAR OS ARQUIVOS
-def main_datacao_auto(pasta):
+def main_datacao_auto_2(pasta):
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     infos = []
