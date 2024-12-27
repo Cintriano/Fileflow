@@ -22,6 +22,7 @@ def log(infos, tipo):
                         relatorio.write(linha)
                     return True
         with open(caminho_arquivo, 'a') as relatorio:
+            relatorio.write("data/hora/tipo_processo/nome_novo/nome_antigo/dispositivo\n")
             for info in infos:
                 linha = f'{data}/{hora}/{tipo}/{info[0]}/{info[1]}/{info[2]}\n'
                 relatorio.write(linha)
