@@ -25,7 +25,7 @@ def main_datacao_auto(pasta):
             log(infos, "r")
         return "Processo Finalizado"
     except Exception as e:
-        return f"Erro Função(main_auto_r): {e}"
+        return f"Erro Função(main_datacao_auto): {e}"
 
 def main_datacao_manual(data_personalizada, pasta):
     if not os.path.exists(pasta):
@@ -42,7 +42,7 @@ def main_datacao_manual(data_personalizada, pasta):
             log(infos, "r")
         return "Processo Finalizado"
     except Exception as e:
-        return f"Erro Função(main_manual_r): {e}"
+        return f"Erro Função(main_datacao_manual): {e}"
 
 def main_conversao(pasta, operacao):
     if not os.path.exists(pasta):
@@ -72,7 +72,7 @@ def main_conversao(pasta, operacao):
         log(infos, "c")
         return "Processo Finalizado"
     except Exception as e:
-        return f"Erro Função(main_c): {e}"
+        return f"Erro Função(main_conversao): {e}"
 
 #FAZ A LEITURA DO LOG PESQUISANDO UM ARQUIVO ESPECIFICO
 def main_busca_log(pasta, nome_arquivo):
@@ -85,9 +85,9 @@ def main_busca_log(pasta, nome_arquivo):
                 for linha in arq.readlines():
                     lista = linha.split('/')
                     if lista[0] == nome_arquivo:
-                        return f'{lista[0]} - {lista[1]} - {lista[2]}'
+                        return f'{lista[0]} - {lista[1]} - {lista[2]} - {lista[3]} - {lista[4]} - {lista[5]}'
     except Exception as e:
-        return "Erro Função(main_b):", e
+        return "Erro Função(main_busca_log):", e
 
 def main_remover_enchanced(pasta):
     try:
@@ -99,4 +99,4 @@ def main_remover_enchanced(pasta):
                 os.rename(caminho_arquivo, novo_caminho)
                 return "Processo Finalizado"
     except Exception as e:
-        return "Erro Função(main_e):", e
+        return "Erro Função(main_remover_enchanced):", e
