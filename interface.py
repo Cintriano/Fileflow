@@ -41,7 +41,7 @@ janela.title("FileFlow")
 janela.geometry("500x500")  # Define o tamanho da janela
 
 # Adicionar uma imagem no topo da janela
-imagem_titulo = tk.PhotoImage(file=r"C:\Users\danil\OneDrive\Arquivos\Programas\FileFlow\Links\Titulo.png")
+imagem_titulo = tk.PhotoImage(file=r"C:\Users\danil\OneDrive\Arquivos\Projetos\FileFlow\Links\Titulo.png")
 label_imagem = tk.Label(janela, image=imagem_titulo)
 label_imagem.pack(pady=10)  # Adiciona padding vertical
 
