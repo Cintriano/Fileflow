@@ -84,7 +84,7 @@ def main_busca_log(pasta, nome_arquivo):
             with open(caminho_arquivo, 'r') as arq:
                 for linha in arq.readlines():
                     lista = linha.split('/')
-                    if lista[0] == nome_arquivo:
+                    if lista[3] == nome_arquivo:
                         return f'{lista[0]} - {lista[1]} - {lista[2]} - {lista[3]} - {lista[4]} - {lista[5]}'
     except Exception as e:
         return "Erro Função(main_busca_log):", e

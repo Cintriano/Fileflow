@@ -173,7 +173,7 @@ btn_executar_consulta = tk.Button(
     consulta,
     text="Executar",
     command=lambda: text_output.insert(
-        "1.0",  # Insere no topo do widget
+        "end",  # Insere no topo do widget
         main_busca_log(r"C:\Users\danil\OneDrive\Temporários\Upload\Log", input_pesquisa.get()),
     ),
 )
