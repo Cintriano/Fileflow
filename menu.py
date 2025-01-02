@@ -22,7 +22,7 @@ while operacao != "sair":
                 break
 
             if tipo_caminho == "p" or tipo_caminho == "P":
-                pasta = r"C:\Users\danil\OneDrive\Temporários\Teste"
+                pasta = r"C:\Users\danil\OneDrive\Temporários\Upload"
             elif tipo_caminho == "c" or tipo_caminho == "C":
                 pasta = r"D:\DCIM\100CANON"
             elif tipo_caminho == "n" or tipo_caminho == "N":
@@ -38,7 +38,7 @@ while operacao != "sair":
             operacao = input(str("\nOperação:"))
             print(main_conversao(pasta, operacao))
         elif operacao == "3" and pasta is None:
-            pasta = r"C:\Users\danil\OneDrive\Temporários\Teste\Log"
+            pasta = r"C:\Users\danil\OneDrive\Temporários\Upload\Log"
             nome_arquivo = input(str("Nome do Arquivo: "))
             print(main_busca_log(pasta, nome_arquivo))
         elif operacao == "4" and pasta is not None:

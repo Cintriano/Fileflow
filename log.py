@@ -6,7 +6,7 @@ from rename import validacao_arq
 
 #CRIA REGISTROS DE TODAS AS EXECUÇÕES
 def log(infos, tipo):
-    pasta = r"C:\Users\danil\OneDrive\Temporários\Teste\Log"
+    pasta = r"C:\Users\danil\OneDrive\Temporários\Upload\Log"
     num = random.randint(10000, 99999)
     data = datetime.now().strftime('%d.%m.%Y')
     hora = datetime.now().strftime("%H:%M:%S")

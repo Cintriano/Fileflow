@@ -4,34 +4,34 @@ from tkinter import filedialog
 from main import main_datacao_auto, main_datacao_manual, main_conversao, main_busca_log, main_remover_enchanced
 
 
+#Abre o seletor de diretório e atualiza o label e a combobox com o caminho escolhido.
 def escolher_diretorio(label_diretorio, combobox):
-    """Abre o seletor de diretório e atualiza o label e a combobox com o caminho escolhido."""
     diretorio = filedialog.askdirectory(title="Escolha um diretório")
     if diretorio:
         label_diretorio.config(text=f"Diretório Selecionado")
         combobox.set(diretorio)
 
 
+#Obtém o caminho do diretório com base na seleção do combobox.
 def obter_caminho_diretorio(combobox):
-    """Obtém o caminho do diretório com base na seleção do combobox."""
     opcao = combobox.get()
     if opcao == "Padrão":
-        return r"C:\Users\danil\OneDrive\Temporários\Teste"
+        return r"C:\Users\danil\OneDrive\Temporários\Upload"
     elif opcao == "Externo (cartão SD)":
         return r"D:\DCIM\100CANON"
     return opcao  # Caso o botão (...) seja usado
 
 
+#Exibe ou oculta o campo de entrada de data dependendo da seleção do combobox.
 def atualizar_interface_tipo_processo(event, frame_data_manual):
-    """Exibe ou oculta o campo de entrada de data dependendo da seleção do combobox."""
     if combobox_processo.get() == "Datação Manual":
         frame_data_manual.pack(pady=5)
     else:
         frame_data_manual.pack_forget()
 
 
+#Exibe uma mensagem no final da página.
 def exibir_mensagem(label_mensagem, texto):
-    """Exibe uma mensagem no final da página."""
     label_mensagem.config(text=texto)
 
 
@@ -174,7 +174,7 @@ btn_executar_consulta = tk.Button(
     text="Executar",
     command=lambda: text_output.insert(
         "1.0",  # Insere no topo do widget
-        main_busca_log(r"C:\Users\danil\OneDrive\Temporários\Teste\Log", input_pesquisa.get()),
+        main_busca_log(r"C:\Users\danil\OneDrive\Temporários\Upload\Log", input_pesquisa.get()),
     ),
 )
 btn_executar_consulta.pack(pady=10)
