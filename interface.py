@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
-from main import main_datacao_auto, main_datacao_manual, main_conversao, main_busca_log, main_remover_enchanced
+from main import *
 
 
 #Abre o seletor de diretório e atualiza o label e a combobox com o caminho escolhido.
@@ -85,7 +85,7 @@ combobox_diretorio_rename, _ = criar_seletor_diretorio(rename, "Escolha diretór
 label_processo = tk.Label(rename, text="Tipo de Processo:")
 label_processo.pack(pady=5)
 
-opcoes_processo = ["Datação automatica", "Datação Manual", "Remover Enhanced"]
+opcoes_processo = ["Datação Automatica", "Datação Manual", "Remover Enhanced", "Nomeação sem Data"]
 combobox_processo = ttk.Combobox(rename, values=opcoes_processo, state="readonly")
 combobox_processo.current(0)
 combobox_processo.pack(pady=5)
@@ -114,7 +114,11 @@ btn_executar_rename = tk.Button(
         else (
             main_remover_enchanced(obter_caminho_diretorio(combobox_diretorio_rename))
             if combobox_processo.get() == "Remover Enhanced"
-            else main_datacao_auto(obter_caminho_diretorio(combobox_diretorio_rename))
+            else (
+                main_nomeacao_sem_data(obter_caminho_diretorio(combobox_diretorio_rename))
+                if combobox_processo.get() == "Nomeação sem Data"
+                else main_datacao_auto(obter_caminho_diretorio(combobox_diretorio_rename))
+            )
         ),
     ),
 )
