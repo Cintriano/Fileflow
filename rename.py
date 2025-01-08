@@ -1,6 +1,8 @@
 import os
 import random
 from datetime import datetime
+from idlelib.replace import replace
+from PIL.ExifTags import TAGS, GPSTAGS
 
 from PIL import Image
 
@@ -26,22 +28,23 @@ def renomear_nome(arquivo, pasta):
 
 #RENOMEIA OS ARQUIVOS ATRAVEZ DAS INFORMAÇÕES DOS METADADOS
 def renomear_meta_completo(caminho_arquivo, pasta):
+    device = ""
     try:
         Image.MAX_IMAGE_PIXELS = None
         extensao = extensao_formt(caminho_arquivo)
-        image = Image.open(caminho_arquivo)
-        exif_data = image.getexif()
-        for tag_id, value in exif_data.items():
-            if tag_id == 272:
-                device = value
-            if tag_id == 306:
-                data = value.split(" ")[0].replace(":", ".")
+        imagem = Image.open(caminho_arquivo)
+        exif_data = imagem._getexif()
+        for tag_id, valor in exif_data.items():
+            tag = TAGS.get(tag_id, tag_id)
+            if tag == "DateTimeOriginal":  # Data e hora da captura
+                if tag == "Model":
+                    device = valor
+                data = valor.split(" ")[0].replace(":", ".")
                 data_final = ".".join(data.split(".")[::-1])
                 novo_nome = f"{data_final}_{random.randint(10000, 99999)}.{extensao}"
                 novo_caminho = os.path.join(pasta, novo_nome)
-                image.close()
                 infos = [novo_caminho, novo_nome, device]
-        return infos
+                return infos
     except Exception as e:
         print("Erro Função(renomear_meta_completo): ", e)
 
@@ -49,10 +52,11 @@ def renomear_meta_parcial(caminho_arquivo, pasta):
     try:
         Image.MAX_IMAGE_PIXELS = None
         extensao = extensao_formt(caminho_arquivo)
-        image = Image.open(caminho_arquivo)
-        exif_data = image.getexif()
-        for tag_id, value in exif_data.items():
-            if tag_id == 306:
+        imagem = Image.open(caminho_arquivo)
+        exif_data = imagem._getexif()
+        for tag_id, valor in exif_data.items():
+            tag = TAGS.get(tag_id, tag_id)
+            if tag == "DateTimeOriginal":
                 data = value.split(" ")[0].replace(":", ".")
                 data_final = ".".join(data.split(".")[::-1])
                 novo_nome = f"{data_final}_{random.randint(10000, 99999)}.{extensao}"
@@ -81,10 +85,11 @@ def validacao_meta_data(caminho_arquivo):
     try:
         data = False
         Image.MAX_IMAGE_PIXELS = None
-        image = Image.open(caminho_arquivo)
-        exif_data = image.getexif()
-        for tag_id, value in exif_data.items():
-            if tag_id == 306:
+        imagem = Image.open(caminho_arquivo)
+        exif_data = imagem._getexif()
+        for tag_id, valor in exif_data.items():
+            tag = TAGS.get(tag_id, tag_id)
+            if tag == "DateTimeOriginal":
                 data = True
         if data:
             return True
@@ -96,10 +101,11 @@ def validacao_meta_dispositivo(caminho_arquivo):
     try:
         device = False
         Image.MAX_IMAGE_PIXELS = None
-        image = Image.open(caminho_arquivo)
-        exif_data = image.getexif()
-        for tag_id, value in exif_data.items():
-            if tag_id == 272:
+        imagem = Image.open(caminho_arquivo)
+        exif_data = imagem._getexif()
+        for tag_id, valor in exif_data.items():
+            tag = TAGS.get(tag_id, tag_id)
+            if tag == "Model":
                 device = True
         if device:
             return True
@@ -124,7 +130,7 @@ def padrao_data(caminho_arquivo):
     data_sistema = datetime.now()
     try:
         nome_arquivo = os.path.basename(caminho_arquivo)
-        nome_arquivo = nome_arquivo[:-4]
+        nome_arquivo = remover_extensao(nome_arquivo)
         if len(nome_arquivo) != 16:
             return False
         if nome_arquivo[2] != "." or nome_arquivo[5] != "." or nome_arquivo[10] != "_":
@@ -144,19 +150,10 @@ def padrao_data(caminho_arquivo):
         print("Erro na Função(padrao_data):", e)
         return False
 
-
-#REMOVE O ENCHANCED DOS ARQUIVOS
-def remove_enhanced(pasta):
-    try:
-        for arquivo in os.listdir(pasta):
-            caminho_arquivo = os.path.join(pasta, arquivo)
-            if validacao_arq(caminho_arquivo):
-                novo_nome = arquivo.replace(arquivo[-16:-4:], "")
-                novo_caminho = os.path.join(pasta, novo_nome)
-                os.rename(caminho_arquivo, novo_caminho)
-    except Exception as e:
-        print("Erro Função(remover_enhanced): ", e)
-    # -Enhanced-NR
+def remover_extensao(caminho_arquivo):
+    extesao = extensao_formt(caminho_arquivo)
+    extesao = "." + extesao
+    return caminho_arquivo.replace(extesao, "")
 
 def extensao_formt(caminho_arquivo):
     extensao = (caminho_arquivo.split("."))[-1]

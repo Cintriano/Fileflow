@@ -118,6 +118,6 @@ def main_remover_enchanced(pasta):
                 novo_nome = arquivo.replace("-Enhanced-NR", "")
                 novo_caminho = os.path.join(pasta, novo_nome)
                 os.rename(caminho_arquivo, novo_caminho)
-                return "Processo Finalizado"
+        return "Processo Finalizado"
     except Exception as e:
         return "Erro Função(main_remover_enchanced):", e
