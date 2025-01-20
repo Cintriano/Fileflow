@@ -116,7 +116,7 @@ def validacao_meta_dispositivo(caminho_arquivo):
 def validacao_arq(caminho_arquivo):
     """Essa função valida as extensões de arquivo que o programa ira processar"""
     try:
-        if os.path.isfile(caminho_arquivo) and caminho_arquivo.endswith((".jpg", ".png", ".gif", ".CR2", ".JPG",
+        if os.path.isfile(caminho_arquivo) and caminho_arquivo.endswith((".jpg", "jpeg", ".png", ".gif", ".CR2", ".JPG",
                                                                          ".mp4", ".webp")):
             return True
         return False
