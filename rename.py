@@ -28,23 +28,22 @@ def renomear_nome(arquivo, pasta):
 
 #RENOMEIA OS ARQUIVOS ATRAVEZ DAS INFORMAÇÕES DOS METADADOS
 def renomear_meta_completo(caminho_arquivo, pasta):
-    device = ""
     try:
         Image.MAX_IMAGE_PIXELS = None
         extensao = extensao_formt(caminho_arquivo)
-        imagem = Image.open(caminho_arquivo)
-        exif_data = imagem._getexif()
-        for tag_id, valor in exif_data.items():
-            tag = TAGS.get(tag_id, tag_id)
-            if tag == "DateTimeOriginal":  # Data e hora da captura
-                if tag == "Model":
-                    device = valor
-                data = valor.split(" ")[0].replace(":", ".")
+        image = Image.open(caminho_arquivo)
+        exif_data = image.getexif()
+        for tag_id, value in exif_data.items():
+            if tag_id == 272:
+                device = value
+            if tag_id == 306:
+                data = value.split(" ")[0].replace(":", ".")
                 data_final = ".".join(data.split(".")[::-1])
                 novo_nome = f"{data_final}_{random.randint(10000, 99999)}.{extensao}"
                 novo_caminho = os.path.join(pasta, novo_nome)
+                image.close()
                 infos = [novo_caminho, novo_nome, device]
-                return infos
+        return infos
     except Exception as e:
         print("Erro Função(renomear_meta_completo): ", e)
 
@@ -53,16 +52,15 @@ def renomear_meta_parcial(caminho_arquivo, pasta):
     try:
         Image.MAX_IMAGE_PIXELS = None
         extensao = extensao_formt(caminho_arquivo)
-        imagem = Image.open(caminho_arquivo)
-        exif_data = imagem._getexif()
-        for tag_id, valor in exif_data.items():
-            tag = TAGS.get(tag_id, tag_id)
-            if tag == "DateTimeOriginal":
-                data = valor.split(" ")[0].replace(":", ".")
+        image = Image.open(caminho_arquivo)
+        exif_data = image.getexif()
+        for tag_id, value in exif_data.items():
+            if tag_id == 306:
+                data = value.split(" ")[0].replace(":", ".")
                 data_final = ".".join(data.split(".")[::-1])
                 novo_nome = f"{data_final}_{random.randint(10000, 99999)}.{extensao}"
                 novo_caminho = os.path.join(pasta, novo_nome)
-                imagem.close()
+                image.close()
                 infos = [novo_caminho, novo_nome, "Desconhecido"]
         return infos
     except Exception as e:
@@ -86,14 +84,11 @@ def validacao_meta_data(caminho_arquivo):
     try:
         data = False
         Image.MAX_IMAGE_PIXELS = None
-        imagem = Image.open(caminho_arquivo)
-        exif_data = imagem.getexif()
-        for tag_id, valor in exif_data.items():
-            print(tag_id, " ", valor)
-            tag = TAGS.get(tag_id, tag_id)
-            if tag == :
+        image = Image.open(caminho_arquivo)
+        exif_data = image.getexif()
+        for tag_id, value in exif_data.items():
+            if tag_id == 306:
                 data = True
-        imagem.close()
         if data:
             return True
         return False
@@ -106,13 +101,11 @@ def validacao_meta_dispositivo(caminho_arquivo):
     try:
         device = False
         Image.MAX_IMAGE_PIXELS = None
-        imagem = Image.open(caminho_arquivo)
-        exif_data = imagem._getexif()
-        for tag_id, valor in exif_data.items():
-            tag = TAGS.get(tag_id, tag_id)
-            if tag == "Model":
+        image = Image.open(caminho_arquivo)
+        exif_data = image.getexif()
+        for tag_id, value in exif_data.items():
+            if tag_id == 272:
                 device = True
-        imagem.close()
         if device:
             return True
         return False

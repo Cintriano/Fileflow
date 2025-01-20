@@ -14,17 +14,14 @@ def main_datacao_auto(pasta):
             caminho_arquivo = os.path.join(pasta, arquivo)
             if validacao_arq(caminho_arquivo) and not (padrao_data(caminho_arquivo)):
                 if validacao_meta_data(caminho_arquivo) and validacao_meta_dispositivo(caminho_arquivo):
-                    print("a", arquivo)
                     lista = renomear_meta_completo(caminho_arquivo, pasta)
                     os.rename(caminho_arquivo, lista[0])
                     infos.append((lista[1], arquivo, lista[2]))
                 elif validacao_meta_data(caminho_arquivo):
-                    print("b", arquivo)
                     lista = renomear_meta_parcial(caminho_arquivo, pasta)
                     os.rename(caminho_arquivo, lista[0])
                     infos.append((lista[1], arquivo, lista[2]))
                 else:
-                    print("c", arquivo)
                     infos = infos + (renomear_nome(arquivo, pasta))
         if len(infos) != 0:
             log(infos, "r")
@@ -137,7 +134,3 @@ def main_remover_enchanced(pasta):
         return "Processo Finalizado"
     except Exception as e:
         return "Erro Função(main_remover_enchanced):", e
-
-
-pasta = r"C:\Users\danil\OneDrive\Temporários\Teste"
-main_datacao_auto(pasta)
