@@ -6,6 +6,7 @@ from rename import validacao_arq
 
 #CRIA REGISTROS DE TODAS AS EXECUÇÕES
 def log(infos, tipo):
+    """Essa função cria registros das execuções de renomeação e conversão de imagens"""
     pasta = r"C:\Users\danil\OneDrive\Temporários\Upload\Log"
     num = random.randint(10000, 99999)
     data = datetime.now().strftime('%d.%m.%Y')

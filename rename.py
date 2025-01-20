@@ -48,6 +48,7 @@ def renomear_meta_completo(caminho_arquivo, pasta):
     except Exception as e:
         print("Erro Função(renomear_meta_completo): ", e)
 
+
 def renomear_meta_parcial(caminho_arquivo, pasta):
     try:
         Image.MAX_IMAGE_PIXELS = None
@@ -57,11 +58,11 @@ def renomear_meta_parcial(caminho_arquivo, pasta):
         for tag_id, valor in exif_data.items():
             tag = TAGS.get(tag_id, tag_id)
             if tag == "DateTimeOriginal":
-                data = value.split(" ")[0].replace(":", ".")
+                data = valor.split(" ")[0].replace(":", ".")
                 data_final = ".".join(data.split(".")[::-1])
                 novo_nome = f"{data_final}_{random.randint(10000, 99999)}.{extensao}"
                 novo_caminho = os.path.join(pasta, novo_nome)
-                image.close()
+                imagem.close()
                 infos = [novo_caminho, novo_nome, "Desconhecido"]
         return infos
     except Exception as e:
@@ -80,24 +81,28 @@ def renomear_especifico(caminho_arquivo, data_personalizada, pasta):
         print("Erro Função(renomear_especifico): ", e)
 
 
-#VALIDA SE OS ARQUIVOS POSSUEM METADADOS
 def validacao_meta_data(caminho_arquivo):
+    """Essa função Valida a existencia dos metadados (data) do arquivo"""
     try:
         data = False
         Image.MAX_IMAGE_PIXELS = None
         imagem = Image.open(caminho_arquivo)
-        exif_data = imagem._getexif()
+        exif_data = imagem.getexif()
         for tag_id, valor in exif_data.items():
+            print(tag_id, " ", valor)
             tag = TAGS.get(tag_id, tag_id)
-            if tag == "DateTimeOriginal":
+            if tag == :
                 data = True
+        imagem.close()
         if data:
             return True
         return False
     except Exception as e:
         print("Erro Função(validacao_meta_data): ", e)
 
+
 def validacao_meta_dispositivo(caminho_arquivo):
+    """Essa função Valida a existencia dos metadados (nome do dispositivo) do arquivo"""
     try:
         device = False
         Image.MAX_IMAGE_PIXELS = None
@@ -107,6 +112,7 @@ def validacao_meta_dispositivo(caminho_arquivo):
             tag = TAGS.get(tag_id, tag_id)
             if tag == "Model":
                 device = True
+        imagem.close()
         if device:
             return True
         return False
@@ -114,8 +120,8 @@ def validacao_meta_dispositivo(caminho_arquivo):
         print("Erro Função(validacao_meta_dispositivo): ", e)
 
 
-#VALIDA SE AS EXTENÇÕES DOS ARQUIVOS SÃO VALIDAS
 def validacao_arq(caminho_arquivo):
+    """Essa função valida as extensões de arquivo que o programa ira processar"""
     try:
         if os.path.isfile(caminho_arquivo) and caminho_arquivo.endswith((".jpg", ".png", ".gif", ".CR2", ".JPG",
                                                                          ".mp4", ".webp")):
@@ -150,11 +156,15 @@ def padrao_data(caminho_arquivo):
         print("Erro na Função(padrao_data):", e)
         return False
 
+
 def remover_extensao(caminho_arquivo):
+    """Remove a extensão do arquivo independente da quantidade de caracteres retornando o nome do arquivo limpo"""
     extesao = extensao_formt(caminho_arquivo)
     extesao = "." + extesao
     return caminho_arquivo.replace(extesao, "")
 
+
 def extensao_formt(caminho_arquivo):
+    """Extrai a extensão do arquivo e retorna em formato string"""
     extensao = (caminho_arquivo.split("."))[-1]
     return extensao

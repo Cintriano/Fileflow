@@ -2,8 +2,10 @@ from rename import *
 from log import *
 from conversor import *
 
-#FUNÇÃO PRINCIPAL DE RENOMEAÇÃO DE ARQUIVOS, RESPONSAVEL POR VALIDAR E DELEGAR OS ARQUIVOS
 def main_datacao_auto(pasta):
+    """Função main de renomeação que reliza as validações necessarias para datar os arquivos automaticamente
+    de acordo com a disponibilidade dos metadados, a renomeação pode ser feito com os dados
+    completos (renomear_meta_completo) com data e dispositivo, ou parcial (renomear_meta_parcial) apenas data"""
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     infos = []
@@ -12,14 +14,17 @@ def main_datacao_auto(pasta):
             caminho_arquivo = os.path.join(pasta, arquivo)
             if validacao_arq(caminho_arquivo) and not (padrao_data(caminho_arquivo)):
                 if validacao_meta_data(caminho_arquivo) and validacao_meta_dispositivo(caminho_arquivo):
+                    print("a", arquivo)
                     lista = renomear_meta_completo(caminho_arquivo, pasta)
                     os.rename(caminho_arquivo, lista[0])
                     infos.append((lista[1], arquivo, lista[2]))
                 elif validacao_meta_data(caminho_arquivo):
+                    print("b", arquivo)
                     lista = renomear_meta_parcial(caminho_arquivo, pasta)
                     os.rename(caminho_arquivo, lista[0])
                     infos.append((lista[1], arquivo, lista[2]))
                 else:
+                    print("c", arquivo)
                     infos = infos + (renomear_nome(arquivo, pasta))
         if len(infos) != 0:
             log(infos, "r")
@@ -27,7 +32,9 @@ def main_datacao_auto(pasta):
     except Exception as e:
         return f"Erro Função(main_datacao_auto): {e}"
 
+
 def main_datacao_manual(data_personalizada, pasta):
+    """Essa função recebe a pasta uma data no padrão (dd.mm.aaaa) e renomeia todos os arquivos de uma pasta com ela"""
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     infos = []
@@ -44,7 +51,10 @@ def main_datacao_manual(data_personalizada, pasta):
     except Exception as e:
         return f"Erro Função(main_datacao_manual): {e}"
 
+
 def main_nomeacao_sem_data(pasta):
+    """Essa função renomeia todos os arquivos da pasta recebida que estejam sem nenhuma informação de data
+     disponivel, usando esse padrão (IMG_82173)"""
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     try:
@@ -66,6 +76,8 @@ def main_nomeacao_sem_data(pasta):
 
 
 def main_conversao(pasta, operacao):
+    """Essa função oferece converções de extenção de arquivos de imagem
+     CR2 -> PNG, CR2 -> JPG, JPG -> PNG, PNG -> JPG"""
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     infos = []
@@ -95,8 +107,9 @@ def main_conversao(pasta, operacao):
     except Exception as e:
         return f"Erro Função(main_conversao): {e}"
 
-#FAZ A LEITURA DO LOG PESQUISANDO UM ARQUIVO ESPECIFICO
+
 def main_busca_log(pasta, nome_arquivo):
+    """Função para realizar buscas nos arquivos de log por meio do nome do arquivo"""
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     try:
@@ -110,7 +123,10 @@ def main_busca_log(pasta, nome_arquivo):
     except Exception as e:
         return "Erro Função(main_busca_log):", e
 
+
 def main_remover_enchanced(pasta):
+    """Função que remove o texto (-Enchanced-NR) do final do nome dos arquivos de imagem de uma pasta
+       inteira"""
     try:
         for arquivo in os.listdir(pasta):
             caminho_arquivo = os.path.join(pasta, arquivo)
@@ -121,3 +137,7 @@ def main_remover_enchanced(pasta):
         return "Processo Finalizado"
     except Exception as e:
         return "Erro Função(main_remover_enchanced):", e
+
+
+pasta = r"C:\Users\danil\OneDrive\Temporários\Teste"
+main_datacao_auto(pasta)
