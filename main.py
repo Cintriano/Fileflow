@@ -127,8 +127,16 @@ def main_remover_enchanced(pasta):
     try:
         for arquivo in os.listdir(pasta):
             caminho_arquivo = os.path.join(pasta, arquivo)
-            if validacao_arq(caminho_arquivo) and arquivo[-16:-4:] == "-Enhanced-NR":
-                novo_nome = arquivo.replace("-Enhanced-NR", "")
+            nome_arquivo = remover_extensao(arquivo)
+            if validacao_arq(caminho_arquivo):
+                delecao = ""
+                if nome_arquivo[-12:] == "-Enhanced-NR":
+                    delecao = "-Enhanced-NR"
+                elif nome_arquivo[-14:] == "-Aprimorado-NR":
+                    delecao = "-Aprimorado-NR"
+                elif nome_arquivo[-14:] == "-Aprimorado-SR":
+                    delecao = "-Aprimorado-SR"
+                novo_nome = arquivo.replace(delecao, "")
                 novo_caminho = os.path.join(pasta, novo_nome)
                 os.rename(caminho_arquivo, novo_caminho)
         return "Processo Finalizado"
