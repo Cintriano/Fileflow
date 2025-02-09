@@ -3,7 +3,6 @@ from tkinter import ttk
 from tkinter import filedialog
 from main import *
 
-
 #Abre o seletor de diretório e atualiza o label e a combobox com o caminho escolhido.
 def escolher_diretorio(label_diretorio, combobox):
     diretorio = filedialog.askdirectory(title="Escolha um diretório")
@@ -16,7 +15,7 @@ def escolher_diretorio(label_diretorio, combobox):
 def obter_caminho_diretorio(combobox):
     opcao = combobox.get()
     if opcao == "Padrão":
-        return r"C:\Users\danil\OneDrive\Temporários\Upload"
+        return r"C:\Users\danil\OneDrive\Publicação\Upload"
     elif opcao == "Externo (cartão SD)":
         return r"D:\DCIM\100CANON"
     return opcao  # Caso o botão (...) seja usado
