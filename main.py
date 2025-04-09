@@ -55,7 +55,6 @@ def main_nomeacao_sem_data(pasta):
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     try:
-        infos = []
         for arquivo in os.listdir(pasta):
             caminho_arquivo = os.path.join(pasta, arquivo)
             if validacao_arq(caminho_arquivo):
@@ -66,8 +65,6 @@ def main_nomeacao_sem_data(pasta):
                     novo_nome = f"IMG_{random.randint(10000, 99999)}.{extensao}"
                 novo_caminho = os.path.join(pasta, novo_nome)
                 os.rename(caminho_arquivo, novo_caminho)
-                infos = infos + [(novo_nome, arquivo, "Desconhecido")]
-        log(infos, 'r')
     except Exception as e:
         return f"Erro Função(main_nomeacao_sem_data): {e}"
 
