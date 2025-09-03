@@ -3,16 +3,7 @@ from datetime import datetime
 import os
 from rename import validacao_arq, padrao_data
 
-
-#CRIA REGISTROS DE TODAS AS EXECUÇÕES
-def log(infos, tipo):
-    """Essa função cria registros das execuções de renomeação e conversão de imagens"""
-    pasta = r"C:\Users\danil\OneDrive\Publicação\Upload\Log"
-    num = random.randint(10000, 99999)
-    data = datetime.now().strftime('%d.%m.%Y')
-    hora = datetime.now().strftime("%H:%M:%S")
-    nome_arquivo = f"LOG_{data}_{num}.txt"
-    dic_mes = {
+dic_mes = {
         '01': 'Janeiro',
         '02': 'Fevereiro',
         '03': 'Marco',
@@ -26,6 +17,15 @@ def log(infos, tipo):
         '11': 'Novembro',
         '12': 'Dezembro'
     }
+
+def log(infos, tipo):
+    """Essa função cria registros das execuções de renomeação e conversão de imagens"""
+    pasta = r"G:\Meu Drive\Publicação\Upload\Log"
+    num = random.randint(10000, 99999)
+    data = datetime.now().strftime('%d.%m.%Y')
+    hora = datetime.now().strftime("%H:%M:%S")
+    nome_arquivo = f"LOG_{data}_{num}.txt"
+
     caminho_arquivo = os.path.join(pasta, nome_arquivo)
     try:
         for arquivo in os.listdir(pasta):

@@ -3,53 +3,39 @@ from tkinter import ttk
 from tkinter import filedialog
 from main import *
 
-#Abre o seletor de diretório e atualiza o label e a combobox com o caminho escolhido.
 def escolher_diretorio(label_diretorio, combobox):
+    """Abre o seletor de diretório e atualiza o label e a combobox com o caminho escolhido."""
     diretorio = filedialog.askdirectory(title="Escolha um diretório")
     if diretorio:
         label_diretorio.config(text=f"Diretório Selecionado")
         combobox.set(diretorio)
 
 
-#Obtém o caminho do diretório com base na seleção do combobox.
 def obter_caminho_diretorio(combobox):
+    """Obtém o caminho do diretório com base na seleção do combobox."""
     opcao = combobox.get()
     if opcao == "Padrão":
-        return r"C:\Users\danil\OneDrive\Publicação\Upload"
+        return r"G:\Meu Drive\Publicação\Upload"
     elif opcao == "Externo (cartão SD)":
         return r"D:\DCIM\100CANON"
     return opcao  # Caso o botão (...) seja usado
 
 
-#Exibe ou oculta o campo de entrada de data dependendo da seleção do combobox.
 def atualizar_interface_tipo_processo(event, frame_data_manual):
+    """Exibe ou oculta o campo de entrada de data dependendo da seleção do combobox."""
     if combobox_processo.get() == "Datação Manual":
         frame_data_manual.pack(pady=5)
     else:
         frame_data_manual.pack_forget()
 
 
-#Exibe uma mensagem no final da página.
 def exibir_mensagem(label_mensagem, texto):
+    """Exibe uma mensagem no final da página."""
     label_mensagem.config(text=texto)
 
 
-# Criar a janela principal
-janela = tk.Tk()
-janela.title("FileFlow")
-janela.geometry("500x500")  # Define o tamanho da janela
-
-# Adicionar uma imagem no topo da janela
-imagem_titulo = tk.PhotoImage(file=r"C:\Users\danil\OneDrive\Arquivos\Projetos\FileFlow\Links\Titulo.png")
-label_imagem = tk.Label(janela, image=imagem_titulo)
-label_imagem.pack(pady=10)  # Adiciona padding vertical
-
-# Adicionar uma barra de abas
-barra_aba = ttk.Notebook(janela)
-barra_aba.pack(expand=True, fill="both")  # Expande para ocupar o espaço disponível
-
-# Função para criar um seletor de diretórios com botão (...)
 def criar_seletor_diretorio(frame, texto):
+    """Função para criar um seletor de diretórios com botão (...)"""
     container = tk.Frame(frame)
     container.pack(pady=5)
 
@@ -73,6 +59,20 @@ def criar_seletor_diretorio(frame, texto):
 
     return combobox, label_diretorio
 
+
+# Criar a janela principal
+janela = tk.Tk()
+janela.title("FileFlow")
+janela.geometry("500x500")  # Define o tamanho da janela
+
+# Adicionar uma imagem no topo da janela
+imagem_titulo = tk.PhotoImage(file=r"G:\Meu Drive\Projetos\Codes\FileFlow\Links\Titulo.png")
+label_imagem = tk.Label(janela, image=imagem_titulo)
+label_imagem.pack(pady=10)  # Adiciona padding vertical
+
+# Adicionar uma barra de abas
+barra_aba = ttk.Notebook(janela)
+barra_aba.pack(expand=True, fill="both")  # Expande para ocupar o espaço disponível
 
 # ----------------- Aba Rename ----------------- #
 rename = ttk.Frame(barra_aba)
@@ -177,7 +177,7 @@ btn_executar_consulta = tk.Button(
     text="Executar",
     command=lambda: text_output.insert(
         "end",  # Insere no topo do widget
-        main_busca_log(r"C:\Users\danil\OneDrive\Temporários\Upload\Log", input_pesquisa.get()),
+        main_busca_log(r"G:\Meu Drive\Publicação\Upload\Log", input_pesquisa.get()),
     ),
 )
 btn_executar_consulta.pack(pady=10)

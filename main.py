@@ -1,5 +1,5 @@
 from rename import *
-from log import *
+#from log import *
 from conversor import *
 
 def main_datacao_auto(pasta):
@@ -65,6 +65,7 @@ def main_nomeacao_sem_data(pasta):
                     novo_nome = f"IMG_{random.randint(10000, 99999)}.{extensao}"
                 novo_caminho = os.path.join(pasta, novo_nome)
                 os.rename(caminho_arquivo, novo_caminho)
+        return True
     except Exception as e:
         return f"Erro Função(main_nomeacao_sem_data): {e}"
 
@@ -114,6 +115,7 @@ def main_busca_log(pasta, nome_arquivo):
                     lista = linha.split('/')
                     if lista[3] == nome_arquivo:
                         return f'{lista[0]} - {lista[1]} - {lista[2]} - {lista[3]} - {lista[4]} - {lista[5]}'
+        return False
     except Exception as e:
         return "Erro Função(main_busca_log):", e
 

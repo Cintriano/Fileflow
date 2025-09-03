@@ -12,7 +12,7 @@ def renomear_nome(arquivo, pasta):
     try:
         caminho_arquivo = os.path.join(pasta, arquivo)
         data = arquivo
-        extensao = extensao_formt(caminho_arquivo)
+        extensao = extensao_format(caminho_arquivo)
         for caractere in data:
             if not caractere.isdigit():
                 data = data.replace(caractere, '')
@@ -30,7 +30,7 @@ def renomear_nome(arquivo, pasta):
 def renomear_meta_completo(caminho_arquivo, pasta):
     try:
         Image.MAX_IMAGE_PIXELS = None
-        extensao = extensao_formt(caminho_arquivo)
+        extensao = extensao_format(caminho_arquivo)
         image = Image.open(caminho_arquivo)
         exif_data = image.getexif()
         for tag_id, value in exif_data.items():
@@ -51,7 +51,7 @@ def renomear_meta_completo(caminho_arquivo, pasta):
 def renomear_meta_parcial(caminho_arquivo, pasta):
     try:
         Image.MAX_IMAGE_PIXELS = None
-        extensao = extensao_formt(caminho_arquivo)
+        extensao = extensao_format(caminho_arquivo)
         image = Image.open(caminho_arquivo)
         exif_data = image.getexif()
         for tag_id, value in exif_data.items():
@@ -70,7 +70,7 @@ def renomear_meta_parcial(caminho_arquivo, pasta):
 #RENOMEIA OS ARQUIVOS COM UMA DATA DEFINIDA ESPECIFICA
 def renomear_especifico(caminho_arquivo, data_personalizada, pasta):
     try:
-        extensao = extensao_formt(caminho_arquivo)
+        extensao = extensao_format(caminho_arquivo)
         novo_nome = f"{data_personalizada.strftime('%d.%m.%Y')}_{random.randint(10000, 99999)}.{extensao}"
         novo_caminho = os.path.join(pasta, novo_nome)
         os.rename(caminho_arquivo, novo_caminho)
@@ -152,12 +152,12 @@ def padrao_data(caminho_arquivo):
 
 def remover_extensao(caminho_arquivo):
     """Remove a extensão do arquivo independente da quantidade de caracteres retornando o nome do arquivo limpo"""
-    extesao = extensao_formt(caminho_arquivo)
+    extesao = extensao_format(caminho_arquivo)
     extesao = "." + extesao
     return caminho_arquivo.replace(extesao, "")
 
 
-def extensao_formt(caminho_arquivo):
+def extensao_format(caminho_arquivo):
     """Extrai a extensão do arquivo e retorna em formato string"""
     extensao = (caminho_arquivo.split("."))[-1]
     return extensao
