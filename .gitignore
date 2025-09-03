@@ -1,0 +1,22 @@
+# Arquivos de IDE
+.idea/
+.vscode/
+
+# Ambientes virtuais
+.venv/
+venv/
+
+# Arquivos de cache e temporários
+__pycache__/
+*.pyc
+
+# Builds e executáveis
+/build/
+*.exe
+
+# Logs
+*.log
+
+# Default
+/shelf/
+/workspace.xml
