@@ -20,3 +20,4 @@ __pycache__/
 # Default
 /shelf/
 /workspace.xml
+.ipynb_checkpoints
