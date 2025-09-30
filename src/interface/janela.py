@@ -8,6 +8,8 @@ ctk.set_appearance_mode("dark")
 
 janela = ctk.CTk() # Criando a instancia da janela
 janela.title("Teste-01") # Texto do head da janela
-janela.geometry("300x300") # Tamanho da janela
+janela.geometry("600x500") # Tamanho da janela
+
+create_label("Selecione a pasta", janela)
 
 janela.mainloop() # Execução da janela
