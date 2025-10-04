@@ -1,10 +1,10 @@
 from rename import *
-#from log import *
+from log import *
 from conversor import *
 
 def main_datacao_auto(pasta):
-    """Função main de renomeação que reliza as validações necessarias para datar os arquivos automaticamente
-    de acordo com a disponibilidade dos metadados, a renomeação pode ser feito com os dados
+    """Função main de renomeação que realiza as validações necessárias para datar os arquivos automaticamente
+    conforme a disponibilidade dos metadados, a renomeação pode ser feito com os dados
     completos (renomear_meta_completo) com data e dispositivo, ou parcial (renomear_meta_parcial) apenas data"""
     if not os.path.exists(pasta):
         return "Pasta não Existente"
@@ -51,7 +51,7 @@ def main_datacao_manual(data_personalizada, pasta):
 
 def main_nomeacao_sem_data(pasta):
     """Essa função renomeia todos os arquivos da pasta recebida que estejam sem nenhuma informação de data
-     disponivel, usando esse padrão (IMG_82173)"""
+     disponível, usando esse padrão (IMG_82173)"""
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     try:
@@ -72,7 +72,7 @@ def main_nomeacao_sem_data(pasta):
 
 def main_conversao(pasta, operacao):
     """Essa função oferece converções de extenção de arquivos de imagem
-     CR2 -> PNG, CR2 -> JPG, JPG -> PNG, PNG -> JPG"""
+     CR2 → PNG, CR2 → JPG, JPG → PNG, PNG → JPG"""
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     infos = []
