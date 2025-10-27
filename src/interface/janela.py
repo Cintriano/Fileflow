@@ -1,31 +1,32 @@
 import customtkinter as ctk
-from componentes.comp_selec_pasta import *
-
-#  python -m src.interface.janela
+# Importa a função para criar a estrutura de abas
+from componentes.comp_selec_pasta import create_tab_view
+# Importa a função que configura a aba 'Rename'
+from tab_rename import setup_rename_tab
 
 # Definindo o tema da interface
 ctk.set_appearance_mode("dark")
 
+# --- Criação da Janela Principal ---
 janela = ctk.CTk() # Criando a instancia da janela
 janela.title("FileFlow") # Texto do head da janela
 janela.geometry("600x500") # Tamanho da janela
 
-create_label(janela, "Selecione a pasta", 10)
+# ============================= Configuração das Abas =================================
 
-# Lista de opções disponíveis
-lista_opcoes = ["Uploads", "Pendentes", "SD-Externo"]
+# 1. Cria a estrutura de abas na janela principal
+abas = create_tab_view(janela, ["Rename"]) # Adicione mais nomes na lista para criar mais abas
 
-# Cria o seletor
-selector_pasta = create_selector(
-    janela,
-    opcoes=lista_opcoes,
-    default_value="Uploads",
-    pady_size=10
-)
+# 2. Seleciona a aba específica que queremos configurar
+aba_rename = abas.tab("Rename")
 
-create_label(janela, "Selecione o método", 10)
+# 3. Executa a função que popula a aba 'Rename' com seus componentes
+setup_rename_tab(aba_rename)
 
-create_button(janela, "Executar", 0, command=lambda: executar(label_feedback))
-label_feedback = create_label(janela,"", 10)
+# Se você tivesse outras abas, configuraria elas aqui. Por exemplo:
+# aba_outra = abas.tab("OutraAba")
+# setup_outra_aba(aba_outra)
 
-janela.mainloop() # Execução da janela
+# ====================================================================================
+
+janela.mainloop() # Inicia a execução da interface gráfica

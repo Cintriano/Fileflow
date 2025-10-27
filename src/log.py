@@ -20,7 +20,7 @@ dic_mes = {
 
 def log(infos, tipo):
     """Essa função cria registros das execuções de renomeação e conversão de imagens"""
-    pasta = r"G:\Meu Drive\Publicação\Upload\Log"
+    pasta = r"G:\Meu Drive\03_Publicação\02_Upload\Log"
     num = random.randint(10000, 99999)
     data = datetime.now().strftime('%d.%m.%Y')
     hora = datetime.now().strftime("%H:%M:%S")
