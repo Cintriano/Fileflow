@@ -1,6 +1,7 @@
 # Arquivos de IDE
 .idea/
 .vscode/
+.env
 
 # Ambientes virtuais
 .venv/

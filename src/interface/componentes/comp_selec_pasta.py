@@ -1,5 +1,4 @@
 import customtkinter as ctk
-from funcionalidades import executar
 
 def create_label(janela, text: str):
     """Cria um CTkLabel (rótulo de texto) e o retorna."""

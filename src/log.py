@@ -3,6 +3,11 @@ from datetime import datetime
 import os
 from rename import validacao_arq, padrao_data
 
+from dotenv import load_dotenv
+
+load_dotenv()
+log_path = os.getenv("LOG_PATH")
+
 dic_mes = {
         '01': 'Janeiro',
         '02': 'Fevereiro',
@@ -20,7 +25,7 @@ dic_mes = {
 
 def log(infos, tipo):
     """Essa função cria registros das execuções de renomeação e conversão de imagens"""
-    pasta = r"G:\Meu Drive\03_Publicação\02_Upload\Log"
+    pasta = log_path
     num = random.randint(10000, 99999)
     data = datetime.now().strftime('%d.%m.%Y')
     hora = datetime.now().strftime("%H:%M:%S")
