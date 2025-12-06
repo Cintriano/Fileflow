@@ -44,18 +44,38 @@ def setup_rename_tab(parent_tab):
     selector_pasta.grid(row=0, column=1, padx=0, pady=(20, 10), sticky="ew")
     button_browse.grid(row=0, column=2, padx=(5, 20), pady=(20, 10), sticky="w")
 
+    # ============================= Campo de Texto para Data Manual =================================
+    # O campo de data é criado aqui, mas inicialmente fica oculto.
+    input_data = input_text(parent_tab, "Data", "dd.mm.aaaa")
+    # Oculta o campo de data até que a opção "Datação Manual" seja selecionada.
+    # Usamos 'grid_remove()' para que o widget não ocupe espaço no layout.
+    input_data.grid_remove()
+
     # ============================= Seleção do processo de execução =================================
+
+    def on_metodo_selecionado(metodo):
+        """
+        Callback executado quando uma nova opção no seletor de método é escolhida.
+        Mostra ou oculta o campo de data com base na seleção.
+        """
+        if metodo == "Datação Manual":
+            # Posiciona o campo de data na grade para torná-lo visível.
+            input_data.grid(row=2, column=1, columnspan=3, padx=20, pady=10, sticky="ew")
+        else:
+            # Remove o campo de data da grade para ocultá-lo.
+            input_data.grid_remove()
 
     label_metodo = create_label(parent_tab, "Selecione o método")
 
     # Lista de opções disponíveis
     lista_opcoes_metodo = ["Datação Automática", "Datação Manual", "Remover Enhanced", "Nomeação sem Data"]
 
-    # Cria o seletor
+    # Cria o seletor e associa a função de callback ao seu comando.
     selector_metodo = create_selector(
         parent_tab,
         opcoes=lista_opcoes_metodo,
         default_value="Datação Automática",
+        command=on_metodo_selecionado
     )
 
     # Posiciona o label e o seletor de método na grade
@@ -66,14 +86,14 @@ def setup_rename_tab(parent_tab):
     # ============================= Switch do Log =================================
     switch_log = create_switch(parent_tab, "Log")
     switch_log.select()
-    switch_log.grid(row=2, column=0, columnspan=3, padx=20, pady=10, sticky="ew")
+    switch_log.grid(row=2, column=0, columnspan=3, padx=20, pady=10, sticky="w")
 
     # ============================= Botão de Execução e Feedback =================================
 
     label_feedback = create_label(parent_tab, "")
 
     # --- Funções de Lógica ---
-    def obter_caminho_selecionado():
+    def obter_caminho_selecionado() -> str:
         """Obtém o caminho do diretório com base na seleção do combobox."""
         opcao = selector_pasta.get()
         if opcao == "Uploads":
@@ -99,9 +119,10 @@ def setup_rename_tab(parent_tab):
             if metodo == "Datação Automática":
                 resultado = main_datacao_auto(caminho)
             elif metodo == "Datação Manual":
-                # A UI para inserir a data manual ainda não foi adicionada a esta aba.
-                # É necessário um campo de entrada de texto para a data.
-                resultado = "Aguardando implementação da data manual."
+                data_fornecida = input_data.entry.get()
+                if not data_fornecida:
+                    raise ValueError("A data manual não foi fornecida.")
+                resultado = main_datacao_manual(caminho, data_fornecida)
                 label_feedback.configure(text_color="orange")
             elif metodo == "Remover Enhanced":
                 resultado = main_remover_enchanced(caminho)
@@ -117,8 +138,8 @@ def setup_rename_tab(parent_tab):
     botao_executar = create_button(parent_tab, "Executar", command=executar_rename)
 
     # Posiciona o botão e o label de feedback, fazendo-os ocupar as três colunas (columnspan=3)
-    botao_executar.grid(row=3, column=0, columnspan=3, padx=20, pady=(20, 10), sticky="ew")
-    label_feedback.grid(row=4, column=0, columnspan=3, padx=20, pady=10, sticky="ew")
+    botao_executar.grid(row=4, column=0, columnspan=3, padx=20, pady=(20, 10), sticky="ew")
+    label_feedback.grid(row=5, column=0, columnspan=3, padx=20, pady=10, sticky="ew")
 
     label_rodape = create_label(parent_tab, "Desenvolvido por Danilo")
     label_rodape.configure(text_color="gray")

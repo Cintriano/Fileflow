@@ -23,8 +23,7 @@ def main_datacao_auto(pasta):
                     infos.append((lista[1], arquivo, lista[2]))
                 else:
                     infos = infos + (renomear_nome(arquivo, pasta))
-        if len(infos) != 0:
-            log(infos, "r")
+        log(infos, "r")
         return "Processo Finalizado"
     except Exception as e:
         return f"Erro Função(main_datacao_auto): {e}"
@@ -42,8 +41,7 @@ def main_datacao_manual(data_personalizada, pasta):
             if validacao_arq(caminho_arquivo):
                 novo_nome = renomear_especifico(caminho_arquivo, data_personalizada, pasta)
                 infos.append((novo_nome, arquivo, "Desconhecido"))
-        if len(infos) != 0:
-            log(infos, "r")
+        log(infos, "r")
         return "Processo Finalizado"
     except Exception as e:
         return f"Erro Função(main_datacao_manual): {e}"

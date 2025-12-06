@@ -23,8 +23,11 @@ dic_mes = {
         '12': 'Dezembro'
     }
 
-def log(infos, tipo):
+def log(infos, tipo) -> bool:
     """Essa função cria registros das execuções de renomeação e conversão de imagens"""
+    if len(infos) == 0:
+        return False
+
     pasta = log_path
     num = random.randint(10000, 99999)
     data = datetime.now().strftime('%d.%m.%Y')
