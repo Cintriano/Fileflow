@@ -1,17 +1,6 @@
-# Imports for path management and main logic
-import os
-from dotenv import load_dotenv
-from main import main_datacao_auto, main_remover_enchanced, main_nomeacao_sem_data, main_datacao_manual
-
 # UI components and functionality helpers
 from componentes.comp_selec_pasta import *
-from funcionalidades import *
-
-# Load environment variables from .env file
-load_dotenv()
-PATH_UPLOADS = os.getenv("PATH_UPLOADS")
-PATH_PENDENTES = os.getenv("PATH_PENDENTES")
-PATH_SD_EXTERNO = os.getenv("PATH_SD_EXTERNO")
+from funcionalidades import botao_nova_pasta, verificar_log, executar_rename
 
 
 def setup_rename_tab(parent_tab):
@@ -92,7 +81,19 @@ def setup_rename_tab(parent_tab):
 
     label_feedback = create_label(parent_tab, "")
 
-    botao_executar = create_button(parent_tab, "Executar", command=executar_rename)
+    # O botão agora chama a função 'executar_rename' do módulo 'funcionalidades',
+    # passando os widgets necessários como argumentos.
+    botao_executar = create_button(
+        parent_tab,
+        "Executar",
+        command=lambda: executar_rename(
+            selector_pasta,
+            selector_metodo,
+            switch_log,
+            input_data,
+            label_feedback
+        )
+    )
 
     # Posiciona o botão e o label de ‘feedback’, fazendo-os ocupar as três colunas (columnspan=3)
     botao_executar.grid(row=4, column=0, columnspan=3, padx=20, pady=(20, 10), sticky="ew")

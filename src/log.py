@@ -23,9 +23,10 @@ dic_mes = {
         '12': 'Dezembro'
     }
 
-def log(infos, tipo) -> bool:
+
+def log(infos: list[tuple], tipo: str, log_ativo: bool) -> bool:
     """Essa função cria registros das execuções de renomeação e conversão de imagens"""
-    if len(infos) == 0:
+    if len(infos) == 0 or not log_ativo:
         return False
 
     pasta = log_path

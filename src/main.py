@@ -2,7 +2,7 @@ from rename import *
 from log import *
 from conversor import *
 
-def main_datacao_auto(pasta):
+def main_datacao_auto(pasta: str, log_ativo: bool):
     """Função main de renomeação que realiza as validações necessárias para datar os arquivos automaticamente
     conforme a disponibilidade dos metadados, a renomeação pode ser feito com os dados
     completos (renomear_meta_completo) com data e dispositivo, ou parcial (renomear_meta_parcial) apenas data"""
@@ -23,13 +23,13 @@ def main_datacao_auto(pasta):
                     infos.append((lista[1], arquivo, lista[2]))
                 else:
                     infos = infos + (renomear_nome(arquivo, pasta))
-        log(infos, "r")
+        log(infos, "r", log_ativo)
         return "Processo Finalizado"
     except Exception as e:
         return f"Erro Função(main_datacao_auto): {e}"
 
 
-def main_datacao_manual(data_personalizada, pasta):
+def main_datacao_manual(pasta, data_personalizada, log_ativo: bool):
     """Essa função recebe a pasta uma data no padrão (dd.mm.aaaa) e renomeia todos os arquivos de uma pasta com ela"""
     if not os.path.exists(pasta):
         return "Pasta não Existente"
@@ -41,7 +41,7 @@ def main_datacao_manual(data_personalizada, pasta):
             if validacao_arq(caminho_arquivo):
                 novo_nome = renomear_especifico(caminho_arquivo, data_personalizada, pasta)
                 infos.append((novo_nome, arquivo, "Desconhecido"))
-        log(infos, "r")
+        log(infos, "r", log_ativo)
         return "Processo Finalizado"
     except Exception as e:
         return f"Erro Função(main_datacao_manual): {e}"
@@ -56,14 +56,14 @@ def main_nomeacao_sem_data(pasta):
         for arquivo in os.listdir(pasta):
             caminho_arquivo = os.path.join(pasta, arquivo)
             if validacao_arq(caminho_arquivo):
-                extensao = extensao_formt(caminho_arquivo)
+                extensao = extensao_format(caminho_arquivo)
                 if extensao == "mp4":
                     novo_nome = f"VID_{random.randint(10000, 99999)}.{extensao}"
                 else:
                     novo_nome = f"IMG_{random.randint(10000, 99999)}.{extensao}"
                 novo_caminho = os.path.join(pasta, novo_nome)
                 os.rename(caminho_arquivo, novo_caminho)
-        return True
+        return "Processo Finalizado"
     except Exception as e:
         return f"Erro Função(main_nomeacao_sem_data): {e}"
 
