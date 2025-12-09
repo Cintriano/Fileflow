@@ -1,6 +1,7 @@
 # Arquivos de IDE
 .idea/
 .vscode/
+.env
 
 # Ambientes virtuais
 .venv/
@@ -20,3 +21,4 @@ __pycache__/
 # Default
 /shelf/
 /workspace.xml
+.ipynb_checkpoints

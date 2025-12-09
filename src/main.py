@@ -1,10 +1,10 @@
 from rename import *
-#from log import *
+from log import *
 from conversor import *
 
-def main_datacao_auto(pasta):
-    """Função main de renomeação que reliza as validações necessarias para datar os arquivos automaticamente
-    de acordo com a disponibilidade dos metadados, a renomeação pode ser feito com os dados
+def main_datacao_auto(pasta: str, log_ativo: bool):
+    """Função main de renomeação que realiza as validações necessárias para datar os arquivos automaticamente
+    conforme a disponibilidade dos metadados, a renomeação pode ser feito com os dados
     completos (renomear_meta_completo) com data e dispositivo, ou parcial (renomear_meta_parcial) apenas data"""
     if not os.path.exists(pasta):
         return "Pasta não Existente"
@@ -23,14 +23,13 @@ def main_datacao_auto(pasta):
                     infos.append((lista[1], arquivo, lista[2]))
                 else:
                     infos = infos + (renomear_nome(arquivo, pasta))
-        if len(infos) != 0:
-            log(infos, "r")
+        log(infos, "r", log_ativo)
         return "Processo Finalizado"
     except Exception as e:
         return f"Erro Função(main_datacao_auto): {e}"
 
 
-def main_datacao_manual(data_personalizada, pasta):
+def main_datacao_manual(pasta, data_personalizada, log_ativo: bool):
     """Essa função recebe a pasta uma data no padrão (dd.mm.aaaa) e renomeia todos os arquivos de uma pasta com ela"""
     if not os.path.exists(pasta):
         return "Pasta não Existente"
@@ -42,8 +41,7 @@ def main_datacao_manual(data_personalizada, pasta):
             if validacao_arq(caminho_arquivo):
                 novo_nome = renomear_especifico(caminho_arquivo, data_personalizada, pasta)
                 infos.append((novo_nome, arquivo, "Desconhecido"))
-        if len(infos) != 0:
-            log(infos, "r")
+        log(infos, "r", log_ativo)
         return "Processo Finalizado"
     except Exception as e:
         return f"Erro Função(main_datacao_manual): {e}"
@@ -51,28 +49,28 @@ def main_datacao_manual(data_personalizada, pasta):
 
 def main_nomeacao_sem_data(pasta):
     """Essa função renomeia todos os arquivos da pasta recebida que estejam sem nenhuma informação de data
-     disponivel, usando esse padrão (IMG_82173)"""
+     disponível, usando esse padrão (IMG_82173)"""
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     try:
         for arquivo in os.listdir(pasta):
             caminho_arquivo = os.path.join(pasta, arquivo)
             if validacao_arq(caminho_arquivo):
-                extensao = extensao_formt(caminho_arquivo)
+                extensao = extensao_format(caminho_arquivo)
                 if extensao == "mp4":
                     novo_nome = f"VID_{random.randint(10000, 99999)}.{extensao}"
                 else:
                     novo_nome = f"IMG_{random.randint(10000, 99999)}.{extensao}"
                 novo_caminho = os.path.join(pasta, novo_nome)
                 os.rename(caminho_arquivo, novo_caminho)
-        return True
+        return "Processo Finalizado"
     except Exception as e:
         return f"Erro Função(main_nomeacao_sem_data): {e}"
 
 
 def main_conversao(pasta, operacao):
     """Essa função oferece converções de extenção de arquivos de imagem
-     CR2 -> PNG, CR2 -> JPG, JPG -> PNG, PNG -> JPG"""
+     CR2 → PNG, CR2 → JPG, JPG → PNG, PNG → JPG"""
     if not os.path.exists(pasta):
         return "Pasta não Existente"
     infos = []
