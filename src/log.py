@@ -29,19 +29,24 @@ def log(infos: list[tuple], tipo: str, log_ativo: bool) -> bool:
 
     pasta = log_path
     num = random.randint(10000, 99999)
-    data = datetime.now().strftime('%d.%m.%Y')
+    # Alterado para o novo padrão yyyy_mm_dd
+    data = datetime.now().strftime('%Y_%m_%d')
     hora = datetime.now().strftime("%H:%M:%S")
     
     # Define o arquivo alvo (procura um existente do mesmo mês ou cria novo)
     caminho_arquivo = None
-    mes_ano_atual = data[3:10] # mm.yyyy
+    # Pega yyyy_mm para agrupar logs do mesmo mês
+    mes_ano_atual = data[0:7] 
     
     try:
         if os.path.exists(pasta):
             for arquivo in os.listdir(pasta):
                 # Verifica se é um arquivo de log válido e se pertence ao mês atual
+                # Nome esperado: LOG_yyyy_mm_dd_num.txt
+                # LOG_ (4 chars) + yyyy (4) + _ (1) + mm (2) = 11 chars até o fim do mês
                 if arquivo.startswith("LOG_") and arquivo.endswith(".txt") and len(arquivo) >= 14:
-                    if arquivo[7:14] == mes_ano_atual:
+                    # Verifica se os caracteres de yyyy_mm batem
+                    if arquivo[4:11] == mes_ano_atual:
                         caminho_arquivo = os.path.join(pasta, arquivo)
                         break
         
@@ -59,20 +64,20 @@ def log(infos: list[tuple], tipo: str, log_ativo: bool) -> bool:
                 try:
                     # Tenta formatar a linha. Se falhar, não quebra o loop dos outros arquivos
                     if padrao_data(info[0]):
-                        data_str = info[0].split('_')[0]
-                        # Garante que o split gerou 3 partes antes de desempacotar
-                        partes_data = data_str.split('.')
-                        if len(partes_data) == 3:
-                            dia_captura, mes_captura, ano_captura = partes_data
-                            nome_mes = dic_mes.get(mes_captura, "Desconhecido")
-                            data_captura_fmt = f"{dia_captura}.{mes_captura}.{ano_captura}"
-                            
-                            linha = f'{data};{hora};{tipo};{data_captura_fmt};{dia_captura};{nome_mes};{ano_captura};{info[0]};{info[1]};{info[2]}\n'
-                            relatorio.write(linha)
-                            continue # Pula para o próximo info se deu certo
+                        # info[0] está no formato yyyy_mm_dd_num.ext (validado por padrao_data)
+                        data_str = info[0][:10] # Pega "yyyy_mm_dd"
+                        ano_captura, mes_captura, dia_captura = data_str.split('_')
+                        
+                        nome_mes = dic_mes.get(mes_captura, "Desconhecido")
+                        # Formata para o log mantendo o padrão yyyy_mm_dd
+                        data_captura_fmt = f"{ano_captura}_{mes_captura}_{dia_captura}"
+                        
+                        linha = f'{data};{hora};{tipo};{data_captura_fmt};{dia_captura};{nome_mes};{ano_captura};{info[0]};{info[1]};{info[2]}\n'
+                        relatorio.write(linha)
+                        continue # Pula para o próximo info se deu certo
 
                     # Caso não seja padrao_data ou falhe a validação acima, escreve log genérico
-                    linha = f'{data};{hora};{tipo};0:0:0:0;{info[0]};{info[1]};{info[2]}\n'
+                    linha = f'{data};{hora};{tipo};0000_00_00;0;0;0;{info[0]};{info[1]};{info[2]}\n'
                     relatorio.write(linha)
                 
                 except Exception as e_linha:

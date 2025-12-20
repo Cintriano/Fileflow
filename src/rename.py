@@ -16,7 +16,14 @@ def renomear_nome(arquivo, pasta):
         for caractere in data:
             if not caractere.isdigit():
                 data = data.replace(caractere, '')
-        data_final = f"{data[6:8]}.{data[4:6]}.{data[0:4]}"
+        # Formato yyyy_mm_dd
+        # Assume que 'data' contem yyyymmdd ou ddmmyyyy? 
+        # O código original era data[6:8].data[4:6].data[0:4] -> dd.mm.yyyy
+        # Isso sugere que a entrada 'data' (após limpar não dígitos) era yyyymmdd (AnoMesDia)
+        # Ex: 20231025 -> 25.10.2023
+        # Agora queremos yyyy_mm_dd -> 2023_10_25
+        data_final = f"{data[0:4]}_{data[4:6]}_{data[6:8]}"
+        
         novo_nome = f"{data_final}_{random.randint(10000, 99999)}.{extensao}"
         novo_caminho = os.path.join(pasta, novo_nome)
         os.rename(caminho_arquivo, novo_caminho)
@@ -37,8 +44,10 @@ def renomear_meta_completo(caminho_arquivo, pasta):
             if tag_id == 272:
                 device = value
             if tag_id == 306:
-                data = value.split(" ")[0].replace(":", ".")
-                data_final = ".".join(data.split(".")[::-1])
+                # value vem como "yyyy:mm:dd HH:MM:SS"
+                # Queremos "yyyy_mm_dd"
+                data_final = value.split(" ")[0].replace(":", "_")
+                
                 novo_nome = f"{data_final}_{random.randint(10000, 99999)}.{extensao}"
                 novo_caminho = os.path.join(pasta, novo_nome)
                 image.close()
@@ -56,8 +65,10 @@ def renomear_meta_parcial(caminho_arquivo, pasta):
         exif_data = image.getexif()
         for tag_id, value in exif_data.items():
             if tag_id == 306:
-                data = value.split(" ")[0].replace(":", ".")
-                data_final = ".".join(data.split(".")[::-1])
+                # value vem como "yyyy:mm:dd HH:MM:SS"
+                # Queremos "yyyy_mm_dd"
+                data_final = value.split(" ")[0].replace(":", "_")
+                
                 novo_nome = f"{data_final}_{random.randint(10000, 99999)}.{extensao}"
                 novo_caminho = os.path.join(pasta, novo_nome)
                 image.close()
@@ -71,7 +82,8 @@ def renomear_meta_parcial(caminho_arquivo, pasta):
 def renomear_especifico(caminho_arquivo, data_personalizada, pasta):
     try:
         extensao = extensao_format(caminho_arquivo)
-        novo_nome = f"{data_personalizada.strftime('%d.%m.%Y')}_{random.randint(10000, 99999)}.{extensao}"
+        # Formato yyyy_mm_dd
+        novo_nome = f"{data_personalizada.strftime('%Y_%m_%d')}_{random.randint(10000, 99999)}.{extensao}"
         novo_caminho = os.path.join(pasta, novo_nome)
         os.rename(caminho_arquivo, novo_caminho)
         return novo_nome
@@ -132,14 +144,16 @@ def padrao_data(caminho_arquivo):
         nome_arquivo = remover_extensao(nome_arquivo)
         if len(nome_arquivo) != 16:
             return False
-        if nome_arquivo[2] != "." or nome_arquivo[5] != "." or nome_arquivo[10] != "_":
+        # Formato esperado: yyyy_mm_dd_num (ex: 2023_10_25_12345)
+        # Índices dos separadores: 4 e 7 (para data) e 10 (para numero)
+        if nome_arquivo[4] != "_" or nome_arquivo[7] != "_" or nome_arquivo[10] != "_":
             return False
         parte_data = nome_arquivo[:10]
         parte_numero = nome_arquivo[11:]
         if not parte_numero.isdigit() or len(parte_numero) != 5:
             return False
         try:
-            data_arquivo = datetime.strptime(parte_data, "%d.%m.%Y")
+            data_arquivo = datetime.strptime(parte_data, "%Y_%m_%d")
         except ValueError:
             return False
         if data_arquivo >= data_sistema:
