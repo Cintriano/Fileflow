@@ -1,5 +1,5 @@
 from rename import *
-from log import *
+from log import log
 from conversor import *
 
 def main_datacao_auto(pasta: str, log_ativo: bool):

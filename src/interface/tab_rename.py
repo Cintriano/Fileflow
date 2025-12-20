@@ -99,6 +99,11 @@ def setup_rename_tab(parent_tab):
     botao_executar.grid(row=4, column=0, columnspan=3, padx=20, pady=(20, 10), sticky="ew")
     label_feedback.grid(row=5, column=0, columnspan=3, padx=20, pady=10, sticky="ew")
 
-    label_rodape = create_label(parent_tab, "Desenvolvido por Danilo")
+    # ============================= Espaçador e Rodapé =================================
+    
+    # Configura a linha logo após o feedback para expandir e empurrar o rodapé para baixo
+    parent_tab.grid_rowconfigure(6, weight=1)
+
+    label_rodape = create_label(parent_tab, "Desenvolvido por Cintra Labs")
     label_rodape.configure(text_color="gray")
-    label_rodape.grid(row=7, column=0, columnspan=3, padx=20, pady=10, sticky="s")
+    label_rodape.grid(row=99, column=0, columnspan=3, padx=20, pady=10, sticky="s")

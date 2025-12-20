@@ -1,13 +1,15 @@
 import os
-from tkinter import filedialog
-from dotenv import load_dotenv
-from main import main_datacao_auto, main_remover_enchanced, main_nomeacao_sem_data, main_datacao_manual
+import sys
+# Adiciona a raiz do projeto ao sys.path para permitir imports de pastas superiores
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-# Load environment variables from .env file
-load_dotenv()
-PATH_UPLOADS = os.getenv("PATH_UPLOADS")
-PATH_PENDENTES = os.getenv("PATH_PENDENTES")
-PATH_SD_EXTERNO = os.getenv("PATH_SD_EXTERNO")
+if project_root not in sys.path:
+    sys.path.append(project_root)
+
+from tkinter import filedialog
+from main import main_datacao_auto, main_remover_enchanced, main_nomeacao_sem_data, main_datacao_manual
+from path_controller.uti_path import busca_path
+from path_controller.pro_path import reset_paths as reset_paths_core
 
 
 def botao_nova_pasta(label_diretorio, combobox):
@@ -27,12 +29,13 @@ def obter_caminho_selecionado(selector_pasta) -> str:
     """Obtém o caminho do diretório com base na seleção do combobox."""
     opcao = selector_pasta.get()
     if opcao == "Uploads":
-        return PATH_UPLOADS
+        return busca_path("DEFAULT_PATH")
     elif opcao == "Pendentes":
-        return PATH_PENDENTES
+        return busca_path("PENDENTES_PATH")
     elif opcao == "SD-Externo":
-        return PATH_SD_EXTERNO
-    return opcao  # Caso um caminho customizado seja selecionado
+        return busca_path("SD_PATH")
+    return opcao  # Caso um caminho customizado seja selecionado (e.g., de um filedialog)
+
 
 def executar_rename(selector_pasta, selector_metodo, switch_log, input_data, label_feedback):
     """Função principal chamada pelo botão 'Executar'.
@@ -60,3 +63,12 @@ def executar_rename(selector_pasta, selector_metodo, switch_log, input_data, lab
         label_feedback.configure(text=resultado, text_color="green")
     except Exception as e:
         label_feedback.configure(text=f"Erro: {e}", text_color="red")
+
+
+def reset_paths_action(label_feedback):
+    """Reseta os caminhos padrão e atualiza o feedback na interface."""
+    try:
+        reset_paths_core()
+        label_feedback.configure(text="Caminhos resetados com sucesso!", text_color="green")
+    except Exception as e:
+        label_feedback.configure(text=f"Erro ao resetar caminhos: {e}", text_color="red")

@@ -1,6 +1,8 @@
 import sys
 from cx_Freeze import setup, Executable
 
+caminho_setup = r".\src\interface\janela.py"
+
 build_exe_options = {
     "packages": [
         "os", "tkinter", "numpy", "matplotlib", "pandas", "scipy",
@@ -16,10 +18,10 @@ if sys.platform == "win32":
 
 # Configuração do setup
 setup(
-    name="FileFlow",
-    version="0.1",
-    description="Minha 1° Aplicação!",
+    name="Diem",
+    version="0.3",
+    description="",
     options={"build_exe": build_exe_options},
-    executables=[Executable("interface.py", base=base)],
+    executables=[Executable(caminho_setup, base=base)],
 )
 
