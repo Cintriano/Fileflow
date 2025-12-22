@@ -23,7 +23,7 @@ janela.geometry("600x500") # Tamanho da janela
 # ============================= Aba rename =================================
 
 # 1. Cria a estrutura de abas na janela principal
-abas = create_tab_view(janela, ["Rename", "Relatório", "Opções"]) # Adicione mais nomes na lista para criar mais abas
+abas = create_tab_view(janela, ["Rename", "Opções"]) # Adicione mais nomes na lista para criar mais abas
 
 # 2. Seleciona a aba específica que queremos configurar
 aba_rename = abas.tab("Rename")
@@ -40,7 +40,7 @@ setup_opcoes_tab(aba_opcoes)
 # ============================= Aba relatorio =================================
 
 # 2. Seleciona a aba específica que queremos configurar
-aba_relatorio = abas.tab("Relatório")
+#aba_relatorio = abas.tab("Relatório")
 
 # 3. Executa a função que popula a aba 'Rename' com seus componentes
 
