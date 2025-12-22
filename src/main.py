@@ -1,6 +1,5 @@
 from rename import *
 from log import log
-from conversor import *
 
 def main_datacao_auto(pasta: str, log_ativo: bool):
     """Função main de renomeação que realiza as validações necessárias para datar os arquivos automaticamente
@@ -66,39 +65,6 @@ def main_nomeacao_sem_data(pasta):
         return "Processo Finalizado"
     except Exception as e:
         return f"Erro Função(main_nomeacao_sem_data): {e}"
-
-
-def main_conversao(pasta, operacao):
-    """Essa função oferece converções de extenção de arquivos de imagem
-     CR2 → PNG, CR2 → JPG, JPG → PNG, PNG → JPG"""
-    if not os.path.exists(pasta):
-        return "Pasta não Existente"
-    infos = []
-    try:
-        if operacao == "1":
-            for arquivo in os.listdir(pasta):
-                if arquivo.endswith(".CR2"):
-                    infos = infos + converter_cr2_jpg(pasta, arquivo)
-                    excluir(pasta, arquivo, ".CR2")
-        elif operacao == "2":
-            for arquivo in os.listdir(pasta):
-                if arquivo.endswith(".CR2"):
-                    infos = infos + converter_cr2_png(pasta, arquivo)
-                    excluir(pasta, arquivo, ".CR2")
-        elif operacao == "3":
-            for arquivo in os.listdir(pasta):
-                if arquivo.endswith(".jpg") or arquivo.endswith(".JPEG"):
-                    infos = infos + converter_jpg_png(pasta, arquivo)
-                    excluir(pasta, arquivo, ".jpg")
-        elif operacao == "4":
-            for arquivo in os.listdir(pasta):
-                if arquivo.endswith(".png"):
-                    infos = infos + converter_png_jpg(pasta, arquivo)
-                    excluir(pasta, arquivo, ".png")
-        log(infos, "c")
-        return "Processo Finalizado"
-    except Exception as e:
-        return f"Erro Função(main_conversao): {e}"
 
 
 def main_busca_log(pasta, nome_arquivo):
