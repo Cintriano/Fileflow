@@ -2,6 +2,9 @@ import os
 import random
 from datetime import datetime
 from idlelib.replace import replace
+from ntpath import join
+from pathlib import Path
+
 from PIL.ExifTags import TAGS, GPSTAGS
 
 from PIL import Image
@@ -138,7 +141,6 @@ def validacao_arq(caminho_arquivo):
 
 #VALIDA SE O ARQUIVO ESTÁ NO PADRÃO DE DATA
 def padrao_data(caminho_arquivo):
-    data_sistema = datetime.now()
     try:
         nome_arquivo = os.path.basename(caminho_arquivo)
         nome_arquivo = remover_extensao(nome_arquivo)
@@ -153,10 +155,8 @@ def padrao_data(caminho_arquivo):
         if not parte_numero.isdigit() or len(parte_numero) != 5:
             return False
         try:
-            data_arquivo = datetime.strptime(parte_data, "%Y_%m_%d")
+            datetime.strptime(parte_data, "%Y_%m_%d")
         except ValueError:
-            return False
-        if data_arquivo >= data_sistema:
             return False
         return True
     except Exception as e:
@@ -165,10 +165,11 @@ def padrao_data(caminho_arquivo):
 
 
 def remover_extensao(caminho_arquivo):
-    """Remove a extensão do arquivo independente da quantidade de caracteres retornando o nome do arquivo limpo"""
-    extesao = extensao_format(caminho_arquivo)
-    extesao = "." + extesao
-    return caminho_arquivo.replace(extesao, "")
+    arquivo = Path(caminho_arquivo)
+    # Enquanto houver sufixo (extensão), ele remove
+    while arquivo.suffix:
+        arquivo = arquivo.with_suffix('')
+    return str(arquivo)
 
 
 def extensao_format(caminho_arquivo):
