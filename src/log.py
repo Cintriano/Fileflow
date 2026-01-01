@@ -53,7 +53,7 @@ def log(infos: list[tuple], tipo: str, log_ativo: bool) -> bool:
         # Se não encontrou arquivo compatível, define caminho para um novo
         novo_arquivo = False
         if caminho_arquivo is None:
-            caminho_arquivo = os.path.join(pasta, f"LOG_{data}_{num}.txt")
+            caminho_arquivo = os.path.join(pasta, f"LOG_{mes_ano_atual}_{num}.txt")
             novo_arquivo = True
 
         with open(caminho_arquivo, 'a', encoding='utf-8') as relatorio:
