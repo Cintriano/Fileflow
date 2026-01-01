@@ -12,7 +12,7 @@ __pycache__/
 *.pyc
 
 # Builds e executáveis
-/build/
+build/
 *.exe
 
 # Logs
